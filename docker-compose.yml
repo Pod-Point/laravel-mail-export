@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/dockerfile
+      args:
+        - IMAGE_NAME=${ECR_IMAGE_URL}
+    volumes:
+      - ./:/app/.:delegated
+    tty: true
+    env_file:
+      ./.env

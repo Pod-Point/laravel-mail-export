@@ -1,0 +1,8 @@
+ARG IMAGE_NAME
+FROM $IMAGE_NAME
+
+COPY . /app/.
+
+WORKDIR /app
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
