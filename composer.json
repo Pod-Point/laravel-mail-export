@@ -1,0 +1,31 @@
+{
+    "name": "pod-point/email-archiving",
+    "description": "Simple package to archivie emails to S3",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^7.5",
+        "mockery/mockery": "^1.3",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pod Point Software Team",
+            "email": "software@pod-point.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "PodPoint\\EmailArciving\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PodPoint\\EmailArciving\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
+    }
+}
