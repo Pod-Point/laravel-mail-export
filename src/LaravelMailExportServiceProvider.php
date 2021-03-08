@@ -1,6 +1,6 @@
 <?php
 
-namespace PodPoint\EmailArchive;
+namespace PodPoint\LaravelMailExport;
 
 use Illuminate\Support\ServiceProvider;
 

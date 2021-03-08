@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PodPoint\\EmailArciving\\": "src/"
+            "PodPoint\\LaravelMailExport\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PodPoint\\EmailArciving\\Tests\\": "tests/"
+            "PodPoint\\LaravelMailExport\\Tests\\": "tests/"
         }
     },
     "scripts": {
