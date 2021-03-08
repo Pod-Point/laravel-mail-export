@@ -1,5 +1,5 @@
 {
-    "name": "pod-point/email-archiving",
+    "name": "pod-point/email-archive",
     "description": "Simple package to archive emails to S3",
     "type": "library",
     "require-dev": {
@@ -30,12 +30,5 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "JohnDoe\\BlogPackage\\BlogPackageServiceProvider"
-            ]
-        }
     }
 }

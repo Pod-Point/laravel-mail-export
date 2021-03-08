@@ -1,5 +1,7 @@
 <?php
 
+namespace PodPoint\EmailArchive;
+
 use Illuminate\Support\ServiceProvider;
 
 class EmailArchiveServiceProvider extends ServiceProvider
@@ -12,7 +14,7 @@ class EmailArchiveServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/email-archive.php' => config_path('review-providers.php'),
+            __DIR__ . '/config/email-archive.php' => config_path('email-archive.php'),
         ], 'reviews-config');
     }
 }
