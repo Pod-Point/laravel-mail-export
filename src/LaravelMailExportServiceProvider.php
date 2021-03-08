@@ -14,7 +14,7 @@ class LaravelMailExportServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/email-archive.php' => config_path('email-archive.php'),
+            __DIR__ . '/config/mail-export.php' => config_path('mail-export.php'),
         ], 'reviews-config');
     }
 }
