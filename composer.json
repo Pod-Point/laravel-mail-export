@@ -1,5 +1,5 @@
 {
-    "name": "pod-point/email-archive",
+    "name": "pod-point/laravel-mail-export",
     "description": "Simple package to archive emails to S3",
     "type": "library",
     "require-dev": {

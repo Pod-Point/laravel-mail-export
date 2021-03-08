@@ -4,7 +4,7 @@ namespace PodPoint\EmailArchive;
 
 use Illuminate\Support\ServiceProvider;
 
-class EmailArchiveServiceProvider extends ServiceProvider
+class LaravelMailExportServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
