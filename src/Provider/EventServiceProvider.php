@@ -2,7 +2,7 @@
 namespace PodPoint\LaravelMailExport\Provider;
 
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use PodPoint\LaravelMailExport\Events\ExportMail;
 
 class EventServiceProvider extends ServiceProvider
