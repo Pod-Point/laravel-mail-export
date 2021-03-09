@@ -1,8 +1,10 @@
 <?php
 
-namespace PodPoint\LaravelMailExport\traits;
+namespace PodPoint\LaravelMailExport\Traits;
 
 use Illuminate\Mail\Mailable;
+use PodPoint\LaravelMailExport\Exportable;
+use Swift_Message;
 
 trait ExportableMail
 {
@@ -14,7 +16,7 @@ trait ExportableMail
      */
     public function setUpExportable(Swift_Message $message, $mailable)
     {
-        if ($mailable instanceof ExportMailable) {
+        if ($mailable instanceof Exportable) {
             $message->storagePath = $mailable->getStoragePath();
             $message->storageDisk = $mailable->getStorageDisk();
         }
