@@ -2,22 +2,19 @@
 
 namespace PodPoint\LaravelMailExport\Events;
 
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Storage;
 
 class ExportMail
 {
     /**
-     * @param  MessageSending  $mailEvent
+     * @param  Mailable  $mailableSent
      */
-    public function handle(MessageSending $mailEvent)
+    public function handle(MailableSent $mailableSent)
     {
-        if (property_exists($mailEvent->message, 'storagePath') && property_exists($mailEvent->message, 'storageDisk')) {
-            $storagePath = $mailEvent->message->storagePath;
-            $storageDisk = $mailEvent->message->storageDisk;
-
-            Storage::disk($storageDisk)
-                ->put($storagePath, $mailEvent->message->toString());
-        }
+        Storage::disk($mailableSent->mailable->getStorageDisk())
+            ->put($mailableSent->mailable->getStoragePath(), $mailableSent->message->toString());
     }
 }

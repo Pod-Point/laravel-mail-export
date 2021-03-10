@@ -2,23 +2,28 @@
 
 namespace PodPoint\LaravelMailExport\Traits;
 
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
+use PodPoint\LaravelMailExport\Events\MailableSent;
 use PodPoint\LaravelMailExport\Exportable;
 use Swift_Message;
 
 trait ExportableMail
 {
-    /**
-     * Set up the Swift_Message object to contain the details about storing the mail.
-     *
-     * @param  Swift_Message  $message
-     * @param  ExportMailable|Mailable  $mailable
-     */
-    public function setUpExportable(Swift_Message $message, $mailable)
+    public function send(MailerContract $mailer)
     {
-        if ($mailable instanceof Exportable) {
-            $message->storagePath = $mailable->getStoragePath();
-            $message->storageDisk = $mailable->getStorageDisk();
+        if (!$this instanceof Exportable) {
+            throw new \Exception('Needs to implement Exportable');
         }
+
+        if (!$this instanceof Mailable) {
+            throw new \Exception('Not mailable class');
+        }
+
+        $this->withSwiftMessage(function (Swift_Message $message){
+            event(new MailableSent($this, $message));
+        });
+
+        parent::send($mailer);
     }
 }
