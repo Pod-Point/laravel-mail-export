@@ -13,10 +13,6 @@ trait ExportableMail
 {
     public function send(MailerContract $mailer)
     {
-        if (!$this instanceof Exportable) {
-            throw new MostImplementExportableException('The provided Mailable instance does not implement Exportable.');
-        }
-
         if (!$this instanceof Mailable) {
             throw new MostBeTypeMailableException('The provided mailable instance is of type mailable.');
         }
