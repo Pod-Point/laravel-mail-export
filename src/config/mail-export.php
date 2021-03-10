@@ -2,6 +2,9 @@
 
 return [
     'storage' => [
-//        class => ['path' => 'some/path', 'disk' => 's3'],
+//        \PodPoint\Api\V3\Mail\AccountToppedUpEmail::class => [
+//            'path' => 'some/path',
+//            'disk' => 's3'
+//        ],
     ],
 ];

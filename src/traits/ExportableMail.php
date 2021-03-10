@@ -64,7 +64,7 @@ trait ExportableMail
      *
      * @return string
      */
-    public function getStoragePathConfig(): string
+    private function getStoragePathConfig(): string
     {
         if (method_exists($this, 'getStoragePath') && !empty($this->getStoragePath())) {
             return $this->getStoragePath();
