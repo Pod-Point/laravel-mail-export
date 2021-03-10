@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Storage;
 use PodPoint\LaravelMailExport\Events\MailableSent;
 use PodPoint\LaravelMailExport\Exportable;
 use Swift_Message;
+use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 
 trait ExportableMail
 {
+    /**
+     * Overwrite Mailable send and push a file to the storage disk.
+     *
+     * @param  MailerContract  $mailer
+     */
     public function send(MailerContract $mailer)
     {
         if (!$this instanceof Mailable) {
@@ -45,6 +51,12 @@ trait ExportableMail
         }
     }
 
+    /**
+     * Get the config value from mail-export.
+     *
+     * @param  string  $config
+     * @return string
+     */
     private function getConfig(string $config): string
     {
         if (!empty(config("mail-export.storage")[get_class($this)])
@@ -52,7 +64,9 @@ trait ExportableMail
             return config('mail-export.storage')[get_class($this)][$config];
         }
 
-        return '';
+        $className = get_class($this);
+
+        throw new MailExportConfigNotFoundException("No {$config} config found for {$className}");
     }
 
     /**
