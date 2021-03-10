@@ -52,24 +52,6 @@ trait ExportableMail
     }
 
     /**
-     * Get the config value from mail-export.
-     *
-     * @param  string  $config
-     * @return string
-     */
-    private function getConfig(string $config): string
-    {
-        if (!empty(config("mail-export.storage")[get_class($this)])
-            && !empty(config('mail-export.storage')[get_class($this)][$config])) {
-            return config('mail-export.storage')[get_class($this)][$config];
-        }
-
-        $className = get_class($this);
-
-        throw new MailExportConfigNotFoundException("No {$config} config found for {$className}");
-    }
-
-    /**
      * Checks where the storage path config is. Order Class Method -> Class property -> Laravel config.
      *
      * @return string
@@ -87,5 +69,23 @@ trait ExportableMail
         if ($path = $this->getConfig('path')) {
             return $path;
         }
+    }
+
+    /**
+     * Get the config value from mail-export.
+     *
+     * @param  string  $config
+     * @return string
+     */
+    private function getConfig(string $config): string
+    {
+        if (!empty(config("mail-export.storage")[get_class($this)])
+            && !empty(config('mail-export.storage')[get_class($this)][$config])) {
+            return config('mail-export.storage')[get_class($this)][$config];
+        }
+
+        $className = get_class($this);
+
+        throw new MailExportConfigNotFoundException("No {$config} config found for {$className}");
     }
 }

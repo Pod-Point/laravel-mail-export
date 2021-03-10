@@ -2,7 +2,7 @@
 
 namespace PodPoint\LaravelMailExport\Exceptions;
 
-class MostBeTypeMailableException extends \Exceptions
+class MustBeTypeMailableException extends \Exceptions
 {
     
 }
