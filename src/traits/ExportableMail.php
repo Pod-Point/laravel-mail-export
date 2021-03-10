@@ -22,10 +22,60 @@ trait ExportableMail
         }
 
         $this->withSwiftMessage(function (Swift_Message $message) use ($mailer) {
-            Storage::disk($this->getStorageDisk())
-                ->put($this->getStoragePath(), $message->toString());
+            Storage::disk($this->getStorageDiskConfig())
+                ->put($this->getStoragePathConfig(), $message->toString());
         });
 
         parent::send($mailer);
+    }
+
+    /**
+     * Checks where the storage disk config is. Order Class Method -> Class property -> Laravel config.
+     *
+     * @return string
+     */
+    private function getStorageDiskConfig(): string
+    {
+        if (method_exists($this, 'getStorageDisk') && !empty($this->getStorageDisk())) {
+            return $this->getStorageDisk();
+        }
+
+        if (property_exists($this, 'storageDisk')) {
+            return $this->storageDisk;
+        }
+
+        if ($disk = $this->getConfig('disk')) {
+            return $disk;
+        }
+    }
+
+    private function getConfig(string $config): string
+    {
+        if (!empty(config("mail-export.storage")[get_class($this)])
+            && !empty(config('mail-export.storage')[get_class($this)][$config])) {
+            return config('mail-export.storage')[get_class($this)][$config];
+        }
+
+        return '';
+    }
+
+    /**
+     * Checks where the storage path config is. Order Class Method -> Class property -> Laravel config.
+     *
+     * @return string
+     */
+    public function getStoragePathConfig(): string
+    {
+        if (method_exists($this, 'getStoragePath') && !empty($this->getStoragePath())) {
+            return $this->getStoragePath();
+        }
+
+        if (property_exists($this, 'storagePath')) {
+            return $this->storagePath;
+        }
+
+        if ($path = $this->getConfig('path')) {
+            return $path;
+        }
     }
 }
