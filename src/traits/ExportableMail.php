@@ -5,10 +5,9 @@ namespace PodPoint\LaravelMailExport\Traits;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Storage;
-use PodPoint\LaravelMailExport\Events\MailableSent;
-use PodPoint\LaravelMailExport\Exportable;
 use Swift_Message;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
+use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
 
 trait ExportableMail
 {
