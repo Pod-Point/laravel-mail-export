@@ -3,6 +3,8 @@
 namespace PodPoint\LaravelMailExport\Tests\Unit;
 
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\TestCase;
 use PodPoint\LaravelMailExport\Tests\Factories\FakeMailable;
@@ -26,6 +28,16 @@ class ExportableMailTest extends TestCase
     private $fakeSwiftMessage;
 
     /**
+     * @var Filesystem|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $mockFileSystem;
+
+    /**
+     * @var Config|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $mockConfig;
+
+    /**
      * SetUp...
      */
     public function setUp()
@@ -37,6 +49,17 @@ class ExportableMailTest extends TestCase
         $this->fakeMailable = new FakeMailable();
         $this->fakeMailer = $this->getMockBuilder(MailerContract::class)->getMock();
         $this->fakeSwiftMessage = new Swift_Message();
+
+        $this->mockFileSystem = $this->getMockBuilder(Filesystem::class)->getMock();
+        $this->mockConfig = $this->getMockBuilder(Config::class)->setMethods(['get'])->getMock();
+
+        $this->mockConfig
+            ->expects($this->any())
+            ->method('get')
+            ->with('Hello');
+
+        app()->instance(Filesystem::class, $this->mockFileSystem);
+        app()->instance(Config::class, $this->mockConfig);
     }
 
     /**
@@ -45,6 +68,7 @@ class ExportableMailTest extends TestCase
      */
     public function testTraitReadDiskAndPathFromConfigFileWhenNoClassMethodOrProperty()
     {
+
         $this->fakeMailable->send($this->fakeMailer);
 
         foreach ($this->fakeMailable->callbacks as $callback) {

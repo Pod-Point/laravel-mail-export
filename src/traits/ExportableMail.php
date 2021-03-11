@@ -3,8 +3,9 @@
 namespace PodPoint\LaravelMailExport\Traits;
 
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Storage;
+use League\Flysystem\Config;
 use Swift_Message;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
@@ -23,7 +24,10 @@ trait ExportableMail
         }
 
         $this->withSwiftMessage(function (Swift_Message $message) use ($mailer) {
-            Storage::disk($this->getStorageDiskConfig())
+
+            $fileSystem = app(Filesystem::class);
+
+            $fileSystem->disk($this->getStorageDiskConfig())
                 ->put($this->getStoragePathConfig(), $message->toString());
         });
 
@@ -78,9 +82,11 @@ trait ExportableMail
      */
     private function getConfig(string $config): string
     {
-        if (!empty(config("mail-export.storage")[get_class($this)])
-            && !empty(config('mail-export.storage')[get_class($this)][$config])) {
-            return config('mail-export.storage')[get_class($this)][$config];
+        $config = app(config::class);
+        dd($config->get('Hello'));
+        if (!empty($config->get("mail-export.storage")[get_class($this)])
+            && !empty($config->get('mail-export.storage')[get_class($this)][$config])) {
+            return $config->get('mail-export.storage')[get_class($this)][$config];
         }
 
         $className = get_class($this);
