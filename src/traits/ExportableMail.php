@@ -3,9 +3,9 @@
 namespace PodPoint\LaravelMailExport\Traits;
 
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Filesystem\Factory as Filesystem;
 use Illuminate\Mail\Mailable;
-use League\Flysystem\Config;
+use Illuminate\Config\Repository as Config;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
 use Swift_Message;
@@ -82,7 +82,8 @@ trait ExportableMail
      */
     private function getConfig(string $name): string
     {
-        $config = app(config::class);
+        $config = app(Config::class);
+
         if (!empty($config->get("mail-export.storage")[get_class($this)])
             && !empty($config->get('mail-export.storage')[get_class($this)][$name])) {
             return $config->get('mail-export.storage')[get_class($this)][$name];
