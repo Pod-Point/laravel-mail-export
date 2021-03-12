@@ -8,8 +8,19 @@ class FakeConfigPropertyMailable extends Mailable
 {
     use ExportableMail;
 
-    public $storageDisk = 'someDisk';
-    public $storagePath = 'some/path';
+    /**
+     * Some value set by test mock.
+     *
+     * @var string
+     */
+    public $storageDisk;
+
+    /**
+     * Some value set by test mock.
+     *
+     * @var string
+     */
+    public $storagePath;
 
     /**
      * Stub
