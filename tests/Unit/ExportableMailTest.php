@@ -2,9 +2,10 @@
 
 namespace PodPoint\LaravelMailExport\Tests\Unit;
 
+use PodPoint\LaravelMailExport\Tests\Factories\FakeConfigPropertyMailable;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Filesystem\Factory as Filesystem;
+use Illuminate\Config\Repository as Config;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\TestCase;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
@@ -77,7 +78,7 @@ class ExportableMailTest extends TestCase
      * Ensure that an exception is thrown when the Mailable call back is handled and their is no defined disk or path.
      * That being no Class method getStorageDisk, a class property storageDisk or the config file.
      */
-    public function testThrowsExceptionWhenNoDiskOrPathIsDefine()
+    public function testThrowsExceptionWhenNoDiskOrPathIsDefined()
     {
         $this->fakeMailable->send($this->fakeMailer);
 
@@ -89,8 +90,22 @@ class ExportableMailTest extends TestCase
     }
 
     /**
+     * @throws MostBeTypeMailableException
+     */
+    public function testTraitReadsDiskAndPathFromClassPropertyWhenDefined()
+    {
+        $fakeMailableClassProperties = new FakeConfigPropertyMailable();
+
+        $fakeMailableClassProperties->send($this->fakeMailer);
+
+        foreach ($fakeMailableClassProperties->callbacks as $callback) {
+            $callback($this->fakeSwiftMessage);
+        }
+    }
+
+    /**
      * Ensure when there is no class method called getStorageDisk, getStoragePath and no class property storageDisk,
-     * storagePath that we read the value from the config file (if exists).
+     * storagePath that we read the value from the config file.
      */
     public function testTraitReadDiskAndPathFromConfigFileWhenNoClassMethodOrProperty()
     {
