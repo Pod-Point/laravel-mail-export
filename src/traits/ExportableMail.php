@@ -6,9 +6,9 @@ use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Mail\Mailable;
 use League\Flysystem\Config;
-use Swift_Message;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
+use Swift_Message;
 
 trait ExportableMail
 {
@@ -77,20 +77,19 @@ trait ExportableMail
     /**
      * Get the config value from mail-export.
      *
-     * @param  string  $config
+     * @param  string  $name
      * @return string
      */
-    private function getConfig(string $config): string
+    private function getConfig(string $name): string
     {
         $config = app(config::class);
-        dd($config->get('Hello'));
         if (!empty($config->get("mail-export.storage")[get_class($this)])
-            && !empty($config->get('mail-export.storage')[get_class($this)][$config])) {
-            return $config->get('mail-export.storage')[get_class($this)][$config];
+            && !empty($config->get('mail-export.storage')[get_class($this)][$name])) {
+            return $config->get('mail-export.storage')[get_class($this)][$name];
         }
 
         $className = get_class($this);
 
-        throw new MailExportConfigNotFoundException("No {$config} config found for {$className}");
+        throw new MailExportConfigNotFoundException("No {$name} config found for {$className}");
     }
 }

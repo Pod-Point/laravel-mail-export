@@ -7,7 +7,10 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\TestCase;
+use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Tests\Factories\FakeMailable;
+use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
 use Swift_Message;
 
 class ExportableMailTest extends TestCase
@@ -53,13 +56,36 @@ class ExportableMailTest extends TestCase
         $this->mockFileSystem = $this->getMockBuilder(Filesystem::class)->getMock();
         $this->mockConfig = $this->getMockBuilder(Config::class)->setMethods(['get'])->getMock();
 
-        $this->mockConfig
-            ->expects($this->any())
-            ->method('get')
-            ->with('Hello');
-
         app()->instance(Filesystem::class, $this->mockFileSystem);
         app()->instance(Config::class, $this->mockConfig);
+    }
+
+    /**
+     * Ensure that exception is thrown when the ExportableMail trait is added to a class that does not extend
+     * Laravel Mailable.
+     */
+    public function testThrowsExceptionWhenExportableMailIsAddedToClassThatDoesExtendMailable()
+    {
+        $exportableMail = $this->getMockForTrait(ExportableMail::class);
+
+        $this->expectException(MostBeTypeMailableException::class);
+
+        $exportableMail->send($this->fakeMailer);
+    }
+
+    /**
+     * Ensure that an exception is thrown when the Mailable call back is handled and their is no defined disk or path.
+     * That being no Class method getStorageDisk, a class property storageDisk or the config file.
+     */
+    public function testThrowsExceptionWhenNoDiskOrPathIsDefine()
+    {
+        $this->fakeMailable->send($this->fakeMailer);
+
+        $this->expectException(MailExportConfigNotFoundException::class);
+
+        foreach ($this->fakeMailable->callbacks as $callback) {
+            $callback($this->fakeSwiftMessage);
+        }
     }
 
     /**
@@ -68,8 +94,9 @@ class ExportableMailTest extends TestCase
      */
     public function testTraitReadDiskAndPathFromConfigFileWhenNoClassMethodOrProperty()
     {
-
         $this->fakeMailable->send($this->fakeMailer);
+
+        $this->mockConfig->expects($this->exactly(3))->method('get')->willReturn('something');
 
         foreach ($this->fakeMailable->callbacks as $callback) {
             $callback($this->fakeSwiftMessage);
