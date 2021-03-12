@@ -1,4 +1,5 @@
 <?php
+
 namespace PodPoint\LaravelMailExport\Tests\Factories;
 
 use Illuminate\Mail\Mailable;
