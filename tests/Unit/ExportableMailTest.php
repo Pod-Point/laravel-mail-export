@@ -149,7 +149,14 @@ class ExportableMailTest extends TestCase
         $this->mockConfig
             ->expects($this->any())
             ->method('get')
-            ->willReturn('something');
+            ->willReturn([
+                get_class($this->fakeMailable) => [
+                    'disk' => 'someDisk',
+                    'path' => 'some/path',
+                ],
+            ]);
+
+        $this->mockFileSystem('someDisk', 'some/path');
 
         foreach ($this->fakeMailable->callbacks as $callback) {
             $callback($this->fakeSwiftMessage);
