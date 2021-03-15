@@ -13,11 +13,9 @@ before_install:
   - phpenv config-rm xdebug.ini
 
 install:
-  - composer install --prefer-source --no-interaction
+  - composer install --no-interaction
 
 script:
-  - pwd
-  - ls -la
   - vendor/bin/phpunit
 
 after_success:
