@@ -26,7 +26,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PodPoint\\LaravelMailExport\\Tests\\": "Tests/"
+            "PodPoint\\LaravelMailExport\\Tests\\": "tests/"
         }
     },
     "scripts": {
