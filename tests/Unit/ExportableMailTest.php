@@ -57,7 +57,7 @@ class ExportableMailTest extends TestCase
 
         Mail::fake();
 
-//        $this->fakeMailable = new FakeMailable();
+        $this->fakeMailable = new FakeMailable();
         $this->fakeMailer = $this->getMockBuilder(MailerContract::class)->getMock();
         $this->fakeSwiftMessage = new Swift_Message();
 
