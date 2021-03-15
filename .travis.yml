@@ -13,7 +13,7 @@ before_install:
   - phpenv config-rm xdebug.ini
 
 install:
-  - composer install --no-interaction
+  - composer install --no-interaction 
 
 script:
   - vendor/bin/phpunit
