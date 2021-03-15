@@ -92,7 +92,7 @@ Once the config has been published. You will have some basic array structure.
 return [
     'disk' => 's3',
     'storage' => [
-        \some\namepsace\ClassThatExtendsMailableWithExportableMailTrait::class => [
+        \some\namespace\ClassThatExtendsMailableWithExportableMailTrait::class => [
             'path' => 'some/path',
             'disk' => 's3'
         ],
