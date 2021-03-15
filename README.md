@@ -13,7 +13,7 @@ A mail exporter for Laravel. This package exports any mail sent with Laravel's `
   "url": "git@github.com:pod-point/laravel-mail-export.git"
 }
 ```
-2. Run the following command inside of the desired project workspace.
+2. Run the following command inside the desired project workspace.
 ```bash
 composer require pod-point/laravel-mail-export
 ```
