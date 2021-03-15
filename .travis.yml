@@ -5,15 +5,11 @@ language: php
 php:
   - '7.1'
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-
 before_install:
   - phpenv config-rm xdebug.ini
 
 install:
-  - composer install --no-interaction 
+  - composer install --no-interaction
 
 script:
   - vendor/bin/phpunit
