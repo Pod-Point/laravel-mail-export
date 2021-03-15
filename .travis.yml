@@ -16,7 +16,9 @@ install:
   - composer install --prefer-source --no-interaction
 
 script:
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - pwd
+  - ls -la
+  - vendor/bin/phpunit
 
 after_success:
   - bash <(curl -s build/logs/ https://codecov.io/bash)
