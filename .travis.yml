@@ -9,12 +9,14 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-before_script:
+before_install:
   - phpenv config-rm xdebug.ini
+
+install:
   - composer install --prefer-source --no-interaction
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
   - bash <(curl -s build/logs/ https://codecov.io/bash)
