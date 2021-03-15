@@ -10,7 +10,7 @@ before_script:
   - composer install --prefer-source --no-interaction
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
   - bash <(curl -s build/logs/ https://codecov.io/bash)
