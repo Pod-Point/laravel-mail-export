@@ -16,6 +16,7 @@ trait ExportableMail
      * Overwrite Mailable send and push a file to the storage disk.
      *
      * @param  MailerContract  $mailer
+     * @throws MostBeTypeMailableException
      */
     public function send(MailerContract $mailer)
     {
@@ -38,6 +39,7 @@ trait ExportableMail
      * Checks where the storage disk config is. Order Class Method -> Class property -> Laravel config.
      *
      * @return string
+     * @throws MailExportConfigNotFoundException
      */
     private function getStorageDiskConfig(): string
     {
@@ -58,6 +60,7 @@ trait ExportableMail
      * Checks where the storage path config is. Order Class Method -> Class property -> Laravel config.
      *
      * @return string
+     * @throws MailExportConfigNotFoundException
      */
     private function getStoragePathConfig(): string
     {
@@ -79,6 +82,7 @@ trait ExportableMail
      *
      * @param  string  $name
      * @return string
+     * @throws MailExportConfigNotFoundException
      */
     private function getConfig(string $name): string
     {
