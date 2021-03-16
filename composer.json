@@ -1,7 +1,7 @@
 {
     "name": "pod-point/laravel-mail-export",
     "description": "Simple package to export emails to S3",
-    "keywords": ["laravel", "kinesis", "monolog", "logging"],
+    "keywords": ["laravel", "Mail"],
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^7.5",
