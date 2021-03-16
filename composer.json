@@ -1,6 +1,6 @@
 {
     "name": "pod-point/laravel-mail-export",
-    "description": "Simple package to export emails to S3",
+    "description": "A mailable trait to export all or individual mails to a storage disk",
     "keywords": ["laravel", "Mail"],
     "type": "library",
     "require-dev": {
@@ -31,5 +31,12 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PodPoint\\LaravelMailExport\\Provider\\LaravelMailExportServiceProvider"
+            ]
+        }
     }
 }
