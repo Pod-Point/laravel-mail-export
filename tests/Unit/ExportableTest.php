@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\TestCase;
 use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Tests\Factories\FakeMailable;
-use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Traits\Exportable;
 use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
 use Swift_Message;
 
-class ExportableMailTest extends TestCase
+class ExportableTest extends TestCase
 {
     /**
      * @var FakeMailable
@@ -78,7 +78,7 @@ class ExportableMailTest extends TestCase
      */
     public function testThrowsExceptionWhenExportableMailIsAddedToClassThatDoesExtendMailable()
     {
-        $exportableMail = $this->getMockForTrait(ExportableMail::class);
+        $exportableMail = $this->getMockForTrait(Exportable::class);
 
         $this->expectException(MostBeTypeMailableException::class);
 

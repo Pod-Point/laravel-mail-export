@@ -2,7 +2,7 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square)](https://php.net/)
 
-A mail exporter for Laravel. This package exports any mail sent with Laravel's `Mailable` class. Simply use the `ExportableMail` trait on the desired email that you would like to export to some storage.
+A mail exporter for Laravel. This package exports any mail sent with Laravel's `Mailable` class. Simply use the `Exportable` trait on the desired email that you would like to export to some storage.
 
 ## Installation
 
@@ -19,25 +19,26 @@ composer require pod-point/laravel-mail-export
 ```
 ##### Publish the configuration - Laravel
 1. Add the provider to the list of providers on config/app.php
+
 ```php
-PodPoint\LaravelMailExport\Provider\LaravelMailExportServiceProvider::class,
+PodPoint\LaravelMailExport\Provider\MailExportServiceProvider::class,
 ```
 
 2. Publish the config
 ```php
-php artisan vendor:publish
+php artisan vendor:publish --provider="PodPoint\LaravelMailExport\Provider\MailExportServiceProvider" --tag="mail-export"
 ```
 
 ## Usage
 
-Simply add the ExportableMail trait to the Mailable class that you want to push to storage.
+Simply add the Exportable trait to the Mailable class that you want to push to storage.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Traits\Exportable;
 
 class SomeMail extends Mailable
 {
-    use ExportableMail;
+    use Exportable;
 }
 ```
 
@@ -49,11 +50,11 @@ There are 3 different ways of defining which disk and path you'd like to use to 
 If you need to define the path or disk dynamically then you can add methods to the class that uses the trait. This method of defining the disk and path will overwrite both the Class property and the config file.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Traits\Exportable;
 
 class SomeMail extends Mailable
 {
-    use ExportableMail;
+    use Exportable;
     
     public function getStorageDisk(): string
     {
@@ -71,11 +72,11 @@ class SomeMail extends Mailable
 declaring the storageDisk and storagePath as public properties on the class that uses the trait will allow you to define the disk and path respectively for the exporter to use.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Traits\Exportable;
 
 class SomeMail extends Mailable
 {
-    use ExportableMail;
+    use Exportable;
     
     public $storagePath = 'some/path';
     

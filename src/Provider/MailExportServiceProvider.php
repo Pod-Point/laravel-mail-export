@@ -5,7 +5,7 @@ namespace PodPoint\LaravelMailExport\Provider;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelMailExportServiceProvider extends ServiceProvider
+class MailExportServiceProvider extends ServiceProvider
 {
     public function boot()
     {

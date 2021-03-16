@@ -35,7 +35,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "PodPoint\\LaravelMailExport\\Provider\\LaravelMailExportServiceProvider"
+                "MailExportServiceProvider"
             ]
         }
     }

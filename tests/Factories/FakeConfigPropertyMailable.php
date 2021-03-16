@@ -3,11 +3,11 @@
 namespace PodPoint\LaravelMailExport\Tests\Factories;
 
 use Illuminate\Mail\Mailable;
-use PodPoint\LaravelMailExport\Traits\ExportableMail;
+use PodPoint\LaravelMailExport\Traits\Exportable;
 
 class FakeConfigPropertyMailable extends Mailable
 {
-    use ExportableMail;
+    use Exportable;
 
     /**
      * Some value set by test mock.

@@ -10,7 +10,7 @@ use PodPoint\LaravelMailExport\Exceptions\MailExportConfigNotFoundException;
 use PodPoint\LaravelMailExport\Exceptions\MostBeTypeMailableException;
 use Swift_Message;
 
-trait ExportableMail
+trait Exportable
 {
     /**
      * Overwrite Mailable send and push a file to the storage disk.
