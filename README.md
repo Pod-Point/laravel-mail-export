@@ -2,7 +2,10 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square)](https://php.net/)
 
-A mail exporter for Laravel. This package exports any mail sent with Laravel's `Mailable` class. Simply use the `Exportable` trait on the desired email that you would like to export to some storage.
+A mail exporter for Laravel. This package exports any mail sent with Laravel's `Mailable` class. Simply use 
+the `Exportable` trait on the desired email that you would like to export to some storage.
+
+Laravel mail exporter currently only exports the mail as .eml.
 
 ## Installation
 
@@ -111,4 +114,4 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
-The MIT License (MIT). Please see [License File](https://github.com/Pod-Point/laravel-mail-export/LICENCE) for more information.
+The MIT License (MIT). Please see [License File](LICENCE) for more information.
