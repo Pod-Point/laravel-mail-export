@@ -6,14 +6,7 @@ A mail exporter for Laravel. This package exports any mail sent with Laravel's `
 
 ## Installation
 
-1. Add the following in the repository section of the composer.json
-```json
-{
-  "type": "git",
-  "url": "git@github.com:pod-point/laravel-mail-export.git"
-}
-```
-2. Run the following command inside the desired project workspace.
+Run the following command inside the desired project workspace.
 ```bash
 composer require pod-point/laravel-mail-export
 ```
@@ -110,9 +103,12 @@ This project uses PHPUnit, run the following command to run the tests:
 composer test
 ```
 
+## Changelog
 
-## Semantic versioning
-Reviews PHP follows [semantic versioning](https://semver.org/) specifications. TODO
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
-The MIT License (MIT). Please see [License File](https://github.com/Pod-Point/reviews-php/LICENCE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/Pod-Point/laravel-mail-export/LICENCE) for more information.
