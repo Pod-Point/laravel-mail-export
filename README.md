@@ -30,11 +30,18 @@ php artisan vendor:publish --provider="PodPoint\LaravelMailExport\Provider\MailE
 Simply add the Exportable trait to the Mailable class that you want to push to storage.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\Exportable;
+<?php
 
-class SomeMail extends Mailable
+namespace App\Mail;
+
+use Illuminate\Mail\Mailable;
+use PodPoint\MailExport\Exportable;
+
+class OrderShipped extends Mailable
 {
     use Exportable;
+    
+    // ...
 }
 ```
 
@@ -46,9 +53,14 @@ There are 3 different ways of defining which disk and path you'd like to use to 
 If you need to define the path or disk dynamically then you can add methods to the class that uses the trait. This method of defining the disk and path will overwrite both the Class property and the config file.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\Exportable;
+<?php
 
-class SomeMail extends Mailable
+namespace App\Mail;
+
+use Illuminate\Mail\Mailable;
+use PodPoint\MailExport\Exportable;
+
+class OrderShipped extends Mailable
 {
     use Exportable;
     
@@ -68,9 +80,14 @@ class SomeMail extends Mailable
 declaring the storageDisk and storagePath as public properties on the class that uses the trait will allow you to define the disk and path respectively for the exporter to use.
 
 ```php
-use PodPoint\LaravelMailExport\Traits\Exportable;
+<?php
 
-class SomeMail extends Mailable
+namespace App\Mail;
+
+use Illuminate\Mail\Mailable;
+use PodPoint\MailExport\Exportable;
+
+class OrderShipped extends Mailable
 {
     use Exportable;
     
@@ -89,7 +106,7 @@ Once the config has been published. You will have some basic array structure.
 return [
     'disk' => 's3',
     'storage' => [
-        \some\namespace\ClassThatExtendsMailableWithExportableMailTrait::class => [
+        \some\namespace\OrderShipped::class => [
             'path' => 'some/path',
             'disk' => 's3'
         ],
