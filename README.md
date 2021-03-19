@@ -125,7 +125,7 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see [CHANGELOG](.github/CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
