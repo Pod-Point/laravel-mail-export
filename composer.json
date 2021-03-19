@@ -18,9 +18,9 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/filesystem": "^8.26",
-        "illuminate/mail": "^8.26",
-        "illuminate/support": "^8.26"
+        "illuminate/filesystem": "^5.4",
+        "illuminate/mail": "^5.4",
+        "illuminate/support": "^5.4"
     },
     "autoload": {
         "psr-4": {
