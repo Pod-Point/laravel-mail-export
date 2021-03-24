@@ -18,6 +18,11 @@ class ExportMessage
     protected $filesystem;
 
     /**
+     * @var \Swift_Message
+     */
+    protected $message;
+
+    /**
      * Wether a message should be exported or not based on if wether
      * it implements the ShouldExport interface or not.
      *
@@ -56,14 +61,16 @@ class ExportMessage
      */
     public function handle(MessageSent $event)
     {
-        $this->shouldStore = $event->message->shouldExport ?? false;
+        $this->message = $event->message;
 
-        $this->disk = $event->message->storageDisk ?? $this->defaultStorageDisk();
+        $this->shouldStore = $this->message->shouldExport ?? false;
 
-        $this->path = $event->message->storagePath ?? $this->defaultStoragePath();
+        $this->disk = $this->message->storageDisk ?? $this->defaultStorageDisk();
+
+        $this->path = $this->message->storagePath ?? $this->defaultStoragePath();
 
         if ($this->shouldStoreMessage()) {
-            $this->storeMessage($event->message);
+            $this->storeMessage();
         }
     }
 
@@ -82,15 +89,14 @@ class ExportMessage
      * Actually stores the stringified version of the \Swift_Message including headers,
      * recipients, subject and body onto the filesystem disk.
      *
-     * @param  \Swift_Message  $message
      * @return void
      */
-    private function storeMessage(Swift_Message $message)
+    private function storeMessage()
     {
         logger()->info('Storing message...', [
             'disk' => $this->disk,
             'path' => $this->path,
-            'message' => $message->toString(),
+            'message' => $this->message->toString(),
         ]);
 
         // $this->filesystem
@@ -130,15 +136,15 @@ class ExportMessage
      */
     private function defaultStorageFilename(): string
     {
-        $recipients = array_keys($this->getSwiftMessage()->getTo());
+        $recipients = array_keys($this->message->getTo());
 
         $to = ! empty($recipients)
             ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]) . '_'
             : '';
 
-        $subject = $this->getSwiftMessage()->getSubject();
+        $subject = $this->message->getSubject();
 
-        $timestamp = $this->getSwiftMessage()->getDate();
+        $timestamp = $this->message->getDate();
 
         return Str::slug("{$timestamp}_{$to}{$subject}", '_');
     }
