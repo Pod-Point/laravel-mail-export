@@ -18,14 +18,4 @@ class EventServiceProvider extends ServiceProvider
             ExportMessage::class,
         ]
     ];
-
-    /**
-     * Register the application's event listeners.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
 }

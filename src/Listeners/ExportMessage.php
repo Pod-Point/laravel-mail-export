@@ -2,6 +2,7 @@
 
 namespace PodPoint\MailExport\Listeners;
 
+use Carbon\Carbon;
 use Swift_Message;
 use Illuminate\Support\Str;
 use Illuminate\Mail\Events\MessageSent;
@@ -45,6 +46,13 @@ class ExportMessage
     public $path;
 
     /**
+     * The filesystem filename used to store the message.
+     *
+     * @var string
+     */
+    public $filename;
+
+    /**
      * Create a new listener instance.
      *
      * @param Factory $filesystem
@@ -63,11 +71,10 @@ class ExportMessage
     {
         $this->message = $event->message;
 
-        $this->shouldStore = $this->message->shouldExport ?? false;
-
-        $this->disk = $this->message->storageDisk ?? $this->defaultStorageDisk();
-
-        $this->path = $this->message->storagePath ?? $this->defaultStoragePath();
+        $this->shouldStore = $this->message->_shouldStore ?? false;
+        $this->disk = $this->message->_storageDisk ?? $this->defaultDisk();
+        $this->path = $this->message->_storagePath ?? $this->defaultPath();
+        $this->filename = $this->message->_storageFilename ?? $this->defaultFilename();
 
         if ($this->shouldStoreMessage()) {
             $this->storeMessage();
@@ -93,17 +100,11 @@ class ExportMessage
      */
     private function storeMessage()
     {
-        logger()->info('Storing message...', [
-            'disk' => $this->disk,
-            'path' => $this->path,
-            'message' => $this->message->toString(),
-        ]);
+        $this->filesystem
+            ->disk($this->disk)
+            ->put("{$this->path}/{$this->filename}.eml", $this->message->toString());
 
-        // $this->filesystem
-        //     ->disk($this->disk)
-        //     ->put($this->path, $message->toString());
-        //
-        // event(new MessageStored($message, $this->disk, $this->path));
+        event(new MessageStored($this->message, $this->disk, $this->path));
     }
 
     /**
@@ -111,7 +112,7 @@ class ExportMessage
      *
      * @return string
      */
-    private function defaultStorageDisk()
+    private function defaultDisk()
     {
         return config('mail-export.disk', config('filesystem.default'));
     }
@@ -121,11 +122,9 @@ class ExportMessage
      *
      * @return string
      */
-    private function defaultStoragePath()
+    private function defaultPath()
     {
-        $storageFilepath = config('mail-export.path');
-
-        return "{$storageFilepath}/{$this->defaultStorageFilename()}.eml";
+        return config('mail-export.path');
     }
 
     /**
@@ -134,8 +133,12 @@ class ExportMessage
      *
      * @return string
      */
-    private function defaultStorageFilename(): string
+    private function defaultFilename(): string
     {
+        if ($filename = config('mail-export.filename')) {
+            return $filename;
+        }
+
         $recipients = array_keys($this->message->getTo());
 
         $to = ! empty($recipients)
@@ -144,7 +147,7 @@ class ExportMessage
 
         $subject = $this->message->getSubject();
 
-        $timestamp = $this->message->getDate();
+        $timestamp = Carbon::now()->format('Y_m_d_His');
 
         return Str::slug("{$timestamp}_{$to}{$subject}", '_');
     }

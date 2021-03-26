@@ -2,8 +2,12 @@
 
 namespace PodPoint\MailExport\Events;
 
+use Illuminate\Foundation\Events\Dispatchable;
+
 class MessageStored
 {
+    use Dispatchable;
+
     /**
      * The Swift message instance.
      *

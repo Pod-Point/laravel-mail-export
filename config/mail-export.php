@@ -24,6 +24,9 @@ return [
 	| by the package in order to export a copy of your mail sent out by
     | the framework. Make sure your filesystem disks are configured!
     |
+    | You can set this to `null` or `false` and we will automatically use
+    | the default disk configured for your application.
+    |
     */
 
     'disk' => 'local',
@@ -40,5 +43,21 @@ return [
     */
 
     'path' => 'email-export',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Filesystem File Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default file name which can be used for all
+    | mails being exported into the filesystem. It is set to `false` by
+    | default, which means the package will automatically generate a
+    | unique file name for you. Check out our README.md for more.
+    |
+    | Possible options: `false` or `'whatever_filename'`
+    |
+    */
+
+    'filename' => false,
 
 ];

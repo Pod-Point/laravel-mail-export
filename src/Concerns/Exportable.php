@@ -25,9 +25,10 @@ trait Exportable
     public function send(MailerContract $mailer)
     {
         $this->withSwiftMessage(function ($message) {
-            $message->shouldStore = $this instanceof ShouldExport;
-            $message->storageDisk = $this->storageDisk();
-            $message->storagePath = $this->storagePath();
+            $message->_shouldStore = $this instanceof ShouldExport;
+            $message->_storageDisk = $this->storageDisk();
+            $message->_storagePath = $this->storagePath();
+            $message->_storageFilename = $this->storageFilename();
         });
 
         parent::send($mailer);
@@ -62,6 +63,22 @@ trait Exportable
 
         return property_exists($this, 'exportPath')
             ? $this->exportPath
+            : null;
+    }
+
+    /**
+     * Get the filesystem file name to be used when exporting that Mailable.
+     *
+     * @return string|null
+     */
+    public function storageFilename(): ?string
+    {
+        if (method_exists($this, 'exportFilename')) {
+            return $this->exportFilename();
+        }
+
+        return property_exists($this, 'exportFilename')
+            ? $this->exportFilename
             : null;
     }
 }
