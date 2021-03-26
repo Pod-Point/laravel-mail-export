@@ -1,33 +1,42 @@
 # Laravel Mail Export
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square)](https://php.net/)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/pod-point/laravel-mail-export.svg?style=flat-square)](https://packagist.org/packages/pod-point/laravel-mail-export)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pod-point/laravel-mail-export/run-tests?label=tests)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Total Downloads](https://img.shields.io/packagist/dt/pod-point/laravel-mail-export.svg?style=flat-square)](https://packagist.org/packages/pod-point/laravel-mail-export)
 
-A mail exporter for Laravel. This package exports any mail sent with Laravel's `Mailable` class. Simply use 
-the `Exportable` trait on the desired email that you would like to export to some storage.
+This package can export any mail sent with Laravel's `Mailable` class to any desired filesystem disk and path as a `.eml` file.
 
-Laravel mail exporter currently only exports the mail as .eml.
+This can be useful when willing to store emails sent for archive purposes.
 
 ## Installation
 
-Run the following command inside the desired project workspace.
+You can install the package via composer:
+
 ```bash
 composer require pod-point/laravel-mail-export
 ```
-##### Publish the configuration - Laravel
-1. Add the provider to the list of providers on config/app.php
 
-```php
-PodPoint\LaravelMailExport\Provider\MailExportServiceProvider::class,
+### Publishing the config file
+
+The configuration for this package comes with some sensible values but you can optionally publish the config file with:
+
+```bash
+php artisan vendor:publish --provider="PodPoint\MailExport\MailExportServiceProvider"
 ```
 
-2. Publish the config
-```php
-php artisan vendor:publish --provider="PodPoint\LaravelMailExport\Provider\MailExportServiceProvider" --tag="mail-export"
-```
+You will be able to specify:
+
+* `enabled`: wether this package is enabled or not.
+* `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
+* `path`: the default path you would like to export your mails within a storage disk.
+* `filename`: a generic default filename for all your mails. `false` will automatically generate a unique filename for you.
+
+See our [`config/mail-export.php`](config/mail-export.php) for more details.
 
 ## Usage
 
-Simply add the Exportable trait to the Mailable class that you want to push to storage.
+Simply add the `Exportable` trait and the `ShouldExport` interface to any Mailable class that you want to persist into any storage disk.
 
 ```php
 <?php
@@ -35,9 +44,10 @@ Simply add the Exportable trait to the Mailable class that you want to push to s
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use PodPoint\MailExport\Exportable;
+use PodPoint\MailExport\Concerns\Exportable;
+use PodPoint\MailExport\Contracts\ShouldExport;
 
-class OrderShipped extends Mailable
+class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
     
@@ -45,12 +55,7 @@ class OrderShipped extends Mailable
 }
 ```
 
-### How to define disk and storage path?
-
-There are 3 different ways of defining which disk and path you'd like to use to store the copy of the email. There is an order of precedence in how the disk and path is used. Class Method -> Class Property -> Config.
-
-#### Class Method
-If you need to define the path or disk dynamically then you can add methods to the class that uses the trait. This method of defining the disk and path will overwrite both the Class property and the config file.
+You can also specify the `disk`, `path` or `filename` to use for a specific Mailable using properties:
 
 ```php
 <?php
@@ -58,26 +63,24 @@ If you need to define the path or disk dynamically then you can add methods to t
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use PodPoint\MailExport\Exportable;
+use PodPoint\MailExport\Concerns\Exportable;
+use PodPoint\MailExport\Contracts\ShouldExport;
 
-class OrderShipped extends Mailable
+class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
     
-    public function getStorageDisk(): string
-    {
-        return 's3';
-    }
+    public $exportDisk = 'some_disk';
+
+    public $exportPath = 'some_path';
+
+    public $exportFilename = 'some_filename';
     
-    public function getStoragePath(): string
-    {
-        return 'some/path';
-    }
+    // ...
 }
 ```
 
-#### Class Property
-declaring the storageDisk and storagePath as public properties on the class that uses the trait will allow you to define the disk and path respectively for the exporter to use.
+You can also use methods if you need more flexibility:
 
 ```php
 <?php
@@ -85,40 +88,36 @@ declaring the storageDisk and storagePath as public properties on the class that
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use PodPoint\MailExport\Exportable;
+use PodPoint\MailExport\Concerns\Exportable;
+use PodPoint\MailExport\Contracts\ShouldExport;
 
-class OrderShipped extends Mailable
+class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
     
-    public $storagePath = 'some/path';
+    // ...
     
-    public $storageDisk = 's3';
+    public function exportDisk(): string
+    {
+        return 'some_disk';
+    }
+
+    public function exportPath(): string
+    {
+        return 'some_path';
+    }
+
+    public function exportFilename(): string
+    {
+        return 'some_filename';
+    }
 }
 ```
 
-#### Config file.
-Once the config has been published. You will have some basic array structure.
+## Testing
 
-```php
-<?php
+Run the tests with:
 
-return [
-    'disk' => 's3',
-    'storage' => [
-        \some\namespace\OrderShipped::class => [
-            'path' => 'some/path',
-            'disk' => 's3'
-        ],
-    ],
-];
-```
-
-Simply add your class as an array key, a sub array with 2 elements one for disk and another for the path.
-
-### Testing
-
-This project uses PHPUnit, run the following command to run the tests:
 ```bash
 composer test
 ```
@@ -128,7 +127,22 @@ composer test
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
+
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
+## Credits
+
+- [Pod Point](https://github.com/pod-point)
+- [All Contributors](https://github.com/pod-point/laravel-mail-export/graphs/contributors)
+
 ## License
-The MIT License (MIT). Please see [License File](LICENCE) for more information.
+
+The MIT License (MIT). Please see [License File](LICENCE.md) for more information.
+
+---
+
+<img src="https://d3h256n3bzippp.cloudfront.net/pod-point-logo.svg" align="right" />
+
+Travel shouldn't damage the earth 🌍
+
+Made with ❤️ at [Pod Point](https://pod-point.com)

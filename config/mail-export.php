@@ -24,12 +24,12 @@ return [
 	| by the package in order to export a copy of your mail sent out by
     | the framework. Make sure your filesystem disks are configured!
     |
-    | You can set this to `null` or `false` and we will automatically use
-    | the default disk configured for your application.
+    | You can set this to `null` and we will automatically use the default
+    | disk configured for your application.
     |
     */
 
-    'disk' => 'local',
+    'disk' => null,
 
     /*
     |--------------------------------------------------------------------------
