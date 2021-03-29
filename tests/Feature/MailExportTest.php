@@ -22,8 +22,7 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => false,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Event::fake([MessageSent::class]);
@@ -32,7 +31,7 @@ class MailExportTest extends TestCase
         Mail::send(new ExportableMailable);
 
         Event::assertDispatched(MessageSent::class);
-        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
+        $this->assertEmpty(Storage::disk('local')->files('mail-exports'));
     }
 
     /** @test */
@@ -41,15 +40,14 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
 
         Mail::send(new ExportableMailable);
 
-        $this->assertCount(1, Storage::disk('local')->files('mail-export'));
+        $this->assertCount(1, Storage::disk('local')->files('mail-exports'));
     }
 
     /** @test */
@@ -58,32 +56,24 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
 
         Mail::send(new StandardMailable);
 
-        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
+        $this->assertEmpty(Storage::disk('local')->files('mail-exports'));
     }
 
     /** @test */
     public function it_will_export_mails_as_eml_files()
     {
-        config()->set('mail-export', [
-            'enabled' => true,
-            'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => 'some_filename',
-        ]);
+        Storage::fake('some_disk');
 
-        Storage::fake('local');
+        Mail::send(new ExportableByPropertiesMailable);
 
-        Mail::send(new ExportableMailable);
-
-        Storage::disk('local')->assertExists('mail-export/some_filename.eml');
+        Storage::disk('some_disk')->assertExists('some_path/some_filename.eml');
     }
 
     /** @test */
@@ -93,8 +83,7 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => null,
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
@@ -102,8 +91,8 @@ class MailExportTest extends TestCase
 
         Mail::send(new ExportableMailable);
 
-        $this->assertCount(1, Storage::disk('local')->files('mail-export'));
-        $this->assertEmpty(Storage::disk('some_disk')->files('mail-export'));
+        $this->assertCount(1, Storage::disk('local')->files('mail-exports'));
+        $this->assertEmpty(Storage::disk('some_disk')->files('mail-exports'));
     }
 
     /** @test */
@@ -112,8 +101,7 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
@@ -122,7 +110,7 @@ class MailExportTest extends TestCase
         Mail::send(new ExportableByPropertiesMailable);
 
         Storage::disk('some_disk')->assertExists('some_path/some_filename.eml');
-        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
+        $this->assertEmpty(Storage::disk('local')->files('mail-exports'));
     }
 
     /** @test */
@@ -131,8 +119,7 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
@@ -141,7 +128,7 @@ class MailExportTest extends TestCase
         Mail::send(new ExportableByMethodsMailable);
 
         Storage::disk('some_disk')->assertExists('some_path/some_filename.eml');
-        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
+        $this->assertEmpty(Storage::disk('local')->files('mail-exports'));
     }
 
     /** @test */
@@ -150,8 +137,7 @@ class MailExportTest extends TestCase
         config()->set('mail-export', [
             'enabled' => true,
             'disk' => 'local',
-            'path' => 'mail-export',
-            'filename' => false,
+            'path' => 'mail-exports',
         ]);
 
         Storage::fake('local');
@@ -160,7 +146,7 @@ class MailExportTest extends TestCase
         Mail::send(new ExportableMailable);
 
         Storage::disk('local')
-            ->assertExists('mail-export/2021_03_26_150142_jane_at_example_com_this_is_the_subject.eml');
+            ->assertExists('mail-exports/2021_03_26_150142_jane_at_example_com_this_is_the_subject.eml');
     }
 
     /** @test */

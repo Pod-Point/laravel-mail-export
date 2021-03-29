@@ -61,7 +61,8 @@ class ExportMessage
      */
     protected function shouldStoreMessage(): bool
     {
-        return config('mail-export.enabled', false);
+        return $this->message->getHeaders()->has('X-Mail-Export')
+            && config('mail-export.enabled', false);
     }
 
     /**
