@@ -24,7 +24,7 @@ trait Exportable
             /** @var \Swift_Message $message */
             $headers = $message->getHeaders();
 
-            $headers->addParameterizedHeader('X-Mail-Export', $message->getId(), [
+            $headers->addParameterizedHeader('X-Mail-Export', 'storage', [
                 'disk' => $this->storageDisk(),
                 'path' => $this->storagePath(),
                 'filename' => $this->storageFilename(),
