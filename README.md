@@ -7,7 +7,7 @@
 
 This package can export any mail sent with Laravel's `Mailable` class to any desired filesystem disk and path as a `.eml` file.
 
-This can be useful when willing to store emails sent for archive purposes.
+This can be useful when wanting to store emails sent for archive purposes.
 
 ## Installation
 

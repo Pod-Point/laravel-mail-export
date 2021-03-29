@@ -44,20 +44,4 @@ return [
 
     'path' => 'email-exports',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Filesystem File Name
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the default file name which can be used for all
-    | mails being exported into the filesystem. It is set to `false` by
-    | default, which means the package will automatically generate a
-    | unique file name for you. Check out our README.md for more.
-    |
-    | Possible options: `false` or `'whatever_filename'`
-    |
-    */
-
-    'filename' => false,
-
 ];

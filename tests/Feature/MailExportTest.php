@@ -26,14 +26,13 @@ class MailExportTest extends TestCase
             'filename' => false,
         ]);
 
-        Event::fake();
+        Event::fake([MessageSent::class]);
         Storage::fake('local');
 
         Mail::send(new ExportableMailable);
 
-        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
         Event::assertDispatched(MessageSent::class);
-        Event::assertNotDispatched(MessageStored::class);
+        $this->assertEmpty(Storage::disk('local')->files('mail-export'));
     }
 
     /** @test */

@@ -3,6 +3,7 @@
 namespace PodPoint\MailExport\Listeners;
 
 use Carbon\Carbon;
+use Swift_Mime_Header;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Mail\Events\MessageSent;
@@ -23,33 +24,11 @@ class ExportMessage
     protected $message;
 
     /**
-     * Wether a message should be exported or not based on if wether
-     * it implements the ShouldExport interface or not.
+     * The filesystem disk, path and filename used to store the message.
      *
-     * @var bool
+     * @var \Swift_Mime_Header
      */
-    public $shouldExport;
-
-    /**
-     * The filesystem disk used to store the message.
-     *
-     * @var string
-     */
-    public $disk;
-
-    /**
-     * The filesystem path used to store the message.
-     *
-     * @var string
-     */
-    public $path;
-
-    /**
-     * The filesystem filename used to store the message.
-     *
-     * @var string
-     */
-    public $filename;
+    protected $storageOptions;
 
     /**
      * Create a new listener instance.
@@ -70,11 +49,6 @@ class ExportMessage
     {
         $this->message = $event->message;
 
-        $this->shouldStore = $this->message->_shouldStore ?? false;
-        $this->disk = $this->message->_storageDisk ?? $this->defaultDisk();
-        $this->path = $this->message->_storagePath ?? $this->defaultPath();
-        $this->filename = $this->message->_storageFilename ?? $this->defaultFilename();
-
         if ($this->shouldStoreMessage()) {
             $this->storeMessage();
         }
@@ -87,8 +61,7 @@ class ExportMessage
      */
     protected function shouldStoreMessage(): bool
     {
-        return $this->shouldStore
-            && config('mail-export.enabled');
+        return config('mail-export.enabled', false);
     }
 
     /**
@@ -99,11 +72,18 @@ class ExportMessage
      */
     private function storeMessage()
     {
-        $this->filesystem
-            ->disk($this->disk)
-            ->put("{$this->path}/{$this->filename}.eml", $this->message->toString());
+        /** @var Swift_Mime_Header $storageOptions */
+        $storageOptions = $this->message->getHeaders()->get('X-Mail-Export');
 
-        event(new MessageStored($this->message, $this->disk, $this->path));
+        $disk = $storageOptions->getParameter('disk') ?: $this->defaultDisk();
+        $path = $storageOptions->getParameter('path') ?: $this->defaultPath();
+        $filename = $storageOptions->getParameter('filename') ?: $this->defaultFilename();
+
+        $this->filesystem
+            ->disk($disk)
+            ->put("{$path}/{$filename}.eml", $this->message->toString());
+
+        event(new MessageStored($this->message, $disk, "{$path}/{$filename}.eml"));
     }
 
     /**
@@ -128,16 +108,12 @@ class ExportMessage
 
     /**
      * Build some default value for the filename of the message we're about to store
-     * so this can be used if none is provided by the developer from the Mailable.
+     * so this can be used if none is provided by the developer.
      *
      * @return string
      */
     private function defaultFilename(): string
     {
-        if ($filename = config('mail-export.filename')) {
-            return $filename;
-        }
-
         $recipients = array_keys($this->message->getTo());
 
         $to = ! empty($recipients)

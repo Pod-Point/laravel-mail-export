@@ -23,7 +23,8 @@ class MessageStored
     public $disk;
 
     /**
-     * The filesystem path used to store the message.
+     * The filesystem full path used to store the message
+     * including the filename and its extension.
      *
      * @var string
      */

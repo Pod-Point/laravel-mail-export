@@ -12,18 +12,23 @@ use PodPoint\MailExport\Contracts\ShouldExport;
 trait Exportable
 {
     /**
-     * Send the message using the given mailer.
-     *
-     * @param  \Illuminate\Contracts\Mail\Mailer  $mailer
-     * @return void
+     * @inheritDoc
      */
     public function send(MailerContract $mailer)
     {
         $this->withSwiftMessage(function ($message) {
-            $message->_shouldStore = $this instanceof ShouldExport;
-            $message->_storageDisk = $this->storageDisk();
-            $message->_storagePath = $this->storagePath();
-            $message->_storageFilename = $this->storageFilename();
+            if (! $this instanceof ShouldExport) {
+                return;
+            }
+
+            /** @var \Swift_Message $message */
+            $headers = $message->getHeaders();
+
+            $headers->addParameterizedHeader('X-Mail-Export', $message->getId(), [
+                'disk' => $this->storageDisk(),
+                'path' => $this->storagePath(),
+                'filename' => $this->storageFilename(),
+            ]);
         });
 
         parent::send($mailer);
@@ -36,13 +41,7 @@ trait Exportable
      */
     public function storageDisk(): ?string
     {
-        if (method_exists($this, 'exportDisk')) {
-            return $this->exportDisk();
-        }
-
-        return property_exists($this, 'exportDisk')
-            ? $this->exportDisk
-            : null;
+        return $this->storageOption('exportDisk');
     }
 
     /**
@@ -52,13 +51,7 @@ trait Exportable
      */
     public function storagePath(): ?string
     {
-        if (method_exists($this, 'exportPath')) {
-            return $this->exportPath();
-        }
-
-        return property_exists($this, 'exportPath')
-            ? $this->exportPath
-            : null;
+        return $this->storageOption('exportPath');
     }
 
     /**
@@ -68,12 +61,21 @@ trait Exportable
      */
     public function storageFilename(): ?string
     {
-        if (method_exists($this, 'exportFilename')) {
-            return $this->exportFilename();
+        return $this->storageOption('exportFilename');
+    }
+
+    /**
+     * Tries to resolve storage options from an optional method and property.
+     *
+     * @param  string  $key
+     * @return string|null
+     */
+    private function storageOption(string $key): ?string
+    {
+        if (method_exists($this, $key)) {
+            return $this->$key();
         }
 
-        return property_exists($this, 'exportFilename')
-            ? $this->exportFilename
-            : null;
+        return property_exists($this, $key) ? $this->$key : null;
     }
 }
