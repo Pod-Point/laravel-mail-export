@@ -2,9 +2,9 @@
 
 namespace PodPoint\MailExport\Providers;
 
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Mail\Events\MessageSent;
 use PodPoint\MailExport\Listeners\ExportMessage;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +16,6 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         MessageSent::class => [
             ExportMessage::class,
-        ]
+        ],
     ];
 }

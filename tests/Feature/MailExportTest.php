@@ -3,17 +3,16 @@
 namespace PodPoint\MailExport\Tests\Feature;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Storage;
-use PodPoint\MailExport\Tests\TestCase;
 use Illuminate\Mail\Events\MessageSent;
-use PodPoint\MailExport\Facades\SentMails;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use PodPoint\MailExport\Events\MessageStored;
-use PodPoint\MailExport\Tests\Stubs\StandardMailable;
-use PodPoint\MailExport\Tests\Stubs\ExportableMailable;
 use PodPoint\MailExport\Tests\Stubs\ExportableByMethodsMailable;
 use PodPoint\MailExport\Tests\Stubs\ExportableByPropertiesMailable;
+use PodPoint\MailExport\Tests\Stubs\ExportableMailable;
+use PodPoint\MailExport\Tests\Stubs\StandardMailable;
+use PodPoint\MailExport\Tests\TestCase;
 
 class MailExportTest extends TestCase
 {

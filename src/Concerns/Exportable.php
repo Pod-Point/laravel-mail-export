@@ -2,14 +2,9 @@
 
 namespace PodPoint\MailExport\Concerns;
 
-use Swift_Message;
-use Illuminate\Mail\Mailable;
-use Illuminate\Config\Repository as Config;
-use PodPoint\MailExport\Contracts\ShouldExport;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
-use PodPoint\MailExport\Exceptions\MostBeTypeMailableException;
-use PodPoint\MailExport\Exceptions\MailExportConfigNotFoundException;
+use Illuminate\Mail\Mailable;
+use PodPoint\MailExport\Contracts\ShouldExport;
 
 /**
  * @mixin Mailable

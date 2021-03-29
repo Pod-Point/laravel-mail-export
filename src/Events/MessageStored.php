@@ -44,4 +44,3 @@ class MessageStored
         $this->path = $path;
     }
 }
-

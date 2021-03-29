@@ -21,7 +21,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
-	| by the package in order to export a copy of your mail sent out by
+    | by the package in order to export a copy of your mail sent out by
     | the framework. Make sure your filesystem disks are configured!
     |
     | You can set this to `null` and we will automatically use the default
@@ -37,7 +37,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem path that should be used
-	| by the package when exporting a mail. This can also be changed at
+    | by the package when exporting a mail. This can also be changed at
     | a Mailable or Message level. Make sure to check our README.md.
     |
     */

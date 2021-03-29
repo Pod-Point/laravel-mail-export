@@ -3,13 +3,12 @@
 namespace PodPoint\MailExport\Listeners;
 
 use Carbon\Carbon;
-use Swift_Message;
-use Illuminate\Support\Str;
-use Illuminate\Mail\Events\MessageSent;
-use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Contracts\Filesystem\Factory;
-use PodPoint\MailExport\Events\MessageStored;
+use Illuminate\Contracts\Mail\Mailable;
+use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Support\Str;
 use PodPoint\MailExport\Contracts\ShouldExport;
+use PodPoint\MailExport\Events\MessageStored;
 
 class ExportMessage
 {
@@ -142,7 +141,7 @@ class ExportMessage
         $recipients = array_keys($this->message->getTo());
 
         $to = ! empty($recipients)
-            ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]) . '_'
+            ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]).'_'
             : '';
 
         $subject = $this->message->getSubject();

@@ -2,7 +2,6 @@
 
 namespace PodPoint\MailExport;
 
-use Illuminate\Mail\Mailer;
 use Illuminate\Support\ServiceProvider;
 use PodPoint\MailExport\Providers\EventServiceProvider;
 
@@ -15,7 +14,7 @@ class MailExportServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/mail-export.php', 'mail-export');
+        $this->mergeConfigFrom(__DIR__.'/../config/mail-export.php', 'mail-export');
 
         $this->app->register(EventServiceProvider::class);
     }
@@ -29,7 +28,7 @@ class MailExportServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/mail-export.php' => config_path('mail-export.php'),
+                __DIR__.'/../config/mail-export.php' => config_path('mail-export.php'),
             ]);
         }
     }
