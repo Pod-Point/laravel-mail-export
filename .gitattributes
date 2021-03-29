@@ -1,8 +1,5 @@
 * text=auto
 
-*.blade.php diff=html
-*.css diff=css
-*.html diff=html
 *.md diff=markdown
 *.php diff=php
 
@@ -13,5 +10,6 @@
 .gitignore export-ignore
 .styleci.yml export-ignore
 CHANGELOG.md export-ignore
+CONTRIBUTING.md export-ignore
+LICENSE.md export-ignore
 phpunit.xml.dist export-ignore
-UPGRADE.md export-ignore
