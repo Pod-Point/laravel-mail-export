@@ -1,7 +1,7 @@
 {
     "name": "pod-point/laravel-mail-export",
     "description": "A mailable trait to export mails to a storage disk once being sent",
-    "keywords": ["laravel", "mail", "storage"],
+    "keywords": ["laravel", "mail", "storage", "archive", "backup"],
     "homepage": "https://github.com/pod-point/laravel-mail-export",
     "license": "MIT",
     "authors": [
