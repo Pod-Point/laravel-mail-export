@@ -9,10 +9,10 @@ jobs:
       fail-fast: true
       matrix:
         php: [ 7.1 ]
-        laravel: [ 5.4.* ]
+        laravel: [ 5.5.* ]
         include:
-          - laravel: 5.4.*
-            testbench: 3.4.*
+          - laravel: 5.5.*
+            testbench: 3.5.*
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 

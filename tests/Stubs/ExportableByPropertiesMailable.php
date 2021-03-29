@@ -2,11 +2,10 @@
 
 namespace PodPoint\MailExport\Tests\Stubs;
 
-use Illuminate\Mail\Mailable;
 use PodPoint\MailExport\Concerns\Exportable;
 use PodPoint\MailExport\Contracts\ShouldExport;
 
-class ExportableByPropertiesMailable extends Mailable implements ShouldExport
+class ExportableByPropertiesMailable extends StubbedMailable implements ShouldExport
 {
     use Exportable;
 
@@ -15,16 +14,4 @@ class ExportableByPropertiesMailable extends Mailable implements ShouldExport
     public $exportPath = 'some_path';
 
     public $exportFilename = 'some_filename';
-
-    public $to = [
-        ['address' => 'jane@example.com', 'name' => 'Jane Doe'],
-    ];
-
-    public function build()
-    {
-        $this
-            ->from('jane@example.com')
-            ->subject('This is the subject')
-            ->html('This is the html.');
-    }
 }

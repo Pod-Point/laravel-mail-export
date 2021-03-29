@@ -22,7 +22,7 @@ trait Exportable
      * @param  \Illuminate\Contracts\Mail\Mailer  $mailer
      * @return void
      */
-    public function send($mailer)
+    public function send(MailerContract $mailer)
     {
         $this->withSwiftMessage(function ($message) {
             $message->_shouldStore = $this instanceof ShouldExport;
