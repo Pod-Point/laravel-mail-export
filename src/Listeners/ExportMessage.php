@@ -3,13 +3,11 @@
 namespace PodPoint\MailExport\Listeners;
 
 use Carbon\Carbon;
-use Swift_Mime_Header;
 use Illuminate\Contracts\Filesystem\Factory;
-use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Str;
-use PodPoint\MailExport\Contracts\ShouldExport;
 use PodPoint\MailExport\Events\MessageStored;
+use Swift_Mime_Header;
 
 class ExportMessage
 {
