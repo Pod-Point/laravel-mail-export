@@ -30,7 +30,6 @@ You will be able to specify:
 * `enabled`: wether this package is enabled or not.
 * `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
 * `path`: the default path you would like to export your mails within a storage disk.
-* `filename`: a generic default filename for all your mails. `false` will automatically generate a unique filename for you.
 
 See our [`config/mail-export.php`](config/mail-export.php) for more details.
 
@@ -54,6 +53,8 @@ class OrderShipped extends Mailable implements ShouldExport
     // ...
 }
 ```
+
+This will use the default filesystem disk and path from the configuration and will also generate a unique filename for you.
 
 You can also specify the `disk`, `path` or `filename` to use for a specific Mailable using properties:
 

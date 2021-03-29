@@ -22,13 +22,6 @@ class ExportMessage
     protected $message;
 
     /**
-     * The filesystem disk, path and filename used to store the message.
-     *
-     * @var \Swift_Mime_Header
-     */
-    protected $storageOptions;
-
-    /**
      * Create a new listener instance.
      *
      * @param Factory $filesystem
@@ -92,7 +85,7 @@ class ExportMessage
      */
     private function defaultDisk()
     {
-        return config('mail-export.disk', config('filesystem.default'));
+        return config('mail-export.disk') ?: config('filesystem.default');
     }
 
     /**
