@@ -36,21 +36,23 @@ class StorageOptions
      */
     public $message;
 
-    public function __construct(Swift_Message $message, array $parameters = [])
+    /**
+     * Declares the storage options for a specific \Swift_Message. The only
+     * properties allowed are 'disk', 'path' and 'filename', all optional.
+     *
+     * @param Swift_Message  $message
+     * @param array  $properties
+     */
+    public function __construct(Swift_Message $message, array $properties = [])
     {
         $this->message = $message;
 
-        $parameters = Arr::only($parameters, ['disk', 'path', 'filename']);
+        $properties = Arr::only($properties, ['disk', 'path', 'filename']);
 
-        foreach ($parameters as $propertyName => $propertyValue) {
+        foreach ($properties as $propertyName => $propertyValue) {
             $default = 'default'.Str::studly($propertyName);
             $this->$propertyName = $propertyValue ?: $this->$default();
         }
-    }
-
-    public function __set($name, $value)
-    {
-        throw new RuntimeException('PodPoint\\MailExport\\StorageOptions data transfer objects are read only.');
     }
 
     /**
