@@ -2,8 +2,8 @@
 
 namespace PodPoint\MailExport\Events;
 
-use PodPoint\MailExport\StorageOptions;
 use Illuminate\Foundation\Events\Dispatchable;
+use PodPoint\MailExport\StorageOptions;
 
 class MessageStored
 {

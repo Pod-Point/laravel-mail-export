@@ -2,11 +2,11 @@
 
 namespace PodPoint\MailExport;
 
-use Swift_Message;
 use Carbon\Carbon;
-use RuntimeException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use RuntimeException;
+use Swift_Message;
 
 /**
  * Data transfer object responsible for holding
@@ -50,7 +50,7 @@ class StorageOptions
 
     public function __set($name, $value)
     {
-        throw new RuntimeException("PodPoint\\MailExport\\StorageOptions data transfer objects are read only.");
+        throw new RuntimeException('PodPoint\\MailExport\\StorageOptions data transfer objects are read only.');
     }
 
     /**

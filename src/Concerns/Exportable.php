@@ -2,13 +2,10 @@
 
 namespace PodPoint\MailExport\Concerns;
 
-use Carbon\Carbon;
-use Swift_Message;
-use Illuminate\Support\Str;
-use PodPoint\MailExport\StorageOptions;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
 use PodPoint\MailExport\Contracts\ShouldExport;
+use PodPoint\MailExport\StorageOptions;
 
 /**
  * @mixin Mailable

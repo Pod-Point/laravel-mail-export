@@ -2,14 +2,10 @@
 
 namespace PodPoint\MailExport\Listeners;
 
-use Carbon\Carbon;
-use Swift_Message;
-use PodPoint\MailExport\StorageOptions;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Mail\Events\MessageSent;
-use Illuminate\Support\Str;
 use PodPoint\MailExport\Events\MessageStored;
-use Swift_Mime_Header;
+use PodPoint\MailExport\StorageOptions;
 
 class ExportMessage
 {
@@ -75,6 +71,4 @@ class ExportMessage
 
         event(new MessageStored($this->message, $storageOptions));
     }
-
-
 }
