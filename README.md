@@ -121,6 +121,33 @@ class OrderShipped extends Mailable implements ShouldExport
 }
 ```
 
+Then you can keep using your `Mailable` as usual:
+
+```php
+Mail::to($request->user())->send(new OrderShipped($order));
+```
+
+Even with Notifications too:
+
+```php
+<?php
+
+namespace App\Notifications;
+
+use App\Mail\OrderShipped as Mailable;
+use Illuminate\Notifications\Notification;
+
+class OrderShipped extends Notification
+{
+    // ...
+    
+    public function toMail($notifiable)
+    {
+        return (new Mailable($this->order))->to($notifiable->email);
+    }    
+}
+```
+
 ## Testing
 
 Run the tests with:
