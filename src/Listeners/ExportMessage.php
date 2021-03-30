@@ -3,6 +3,8 @@
 namespace PodPoint\MailExport\Listeners;
 
 use Carbon\Carbon;
+use Swift_Message;
+use PodPoint\MailExport\StorageOptions;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Str;
@@ -52,7 +54,7 @@ class ExportMessage
      */
     protected function shouldStoreMessage(): bool
     {
-        return $this->message->getHeaders()->has('X-Mail-Export')
+        return property_exists($this->message, '_storageOptions')
             && config('mail-export.enabled', false);
     }
 
@@ -64,58 +66,15 @@ class ExportMessage
      */
     private function storeMessage()
     {
-        /** @var Swift_Mime_Header $storageOptions */
-        $storageOptions = $this->message->getHeaders()->get('X-Mail-Export');
-
-        $disk = $storageOptions->getParameter('disk') ?: $this->defaultDisk();
-        $path = $storageOptions->getParameter('path') ?: $this->defaultPath();
-        $filename = $storageOptions->getParameter('filename') ?: $this->defaultFilename();
+        /** @var StorageOptions $storageOptions */
+        $storageOptions = $this->message->_storageOptions;
 
         $this->filesystem
-            ->disk($disk)
-            ->put("{$path}/{$filename}.eml", $this->message->toString());
+            ->disk($storageOptions->disk)
+            ->put($storageOptions->fullpath(), $this->message->toString());
 
-        event(new MessageStored($this->message, $disk, "{$path}/{$filename}.eml"));
+        event(new MessageStored($this->message, $storageOptions));
     }
 
-    /**
-     * Build the default storage disk using the config if none is provided by the developer.
-     *
-     * @return string
-     */
-    private function defaultDisk()
-    {
-        return config('mail-export.disk') ?: config('filesystem.default');
-    }
 
-    /**
-     * Build the default storage path using the config if none is provided by the developer.
-     *
-     * @return string
-     */
-    private function defaultPath()
-    {
-        return config('mail-export.path');
-    }
-
-    /**
-     * Build some default value for the filename of the message we're about to store
-     * so this can be used if none is provided by the developer.
-     *
-     * @return string
-     */
-    private function defaultFilename(): string
-    {
-        $recipients = array_keys($this->message->getTo());
-
-        $to = ! empty($recipients)
-            ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]).'_'
-            : '';
-
-        $subject = $this->message->getSubject();
-
-        $timestamp = Carbon::now()->format('Y_m_d_His');
-
-        return Str::slug("{$timestamp}_{$to}{$subject}", '_');
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace PodPoint\MailExport\Events;
 
+use PodPoint\MailExport\StorageOptions;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class MessageStored
@@ -16,32 +17,23 @@ class MessageStored
     public $message;
 
     /**
-     * The filesystem disk used to store the message.
+     * The filesystem storage options used to store the message including
+     * the disk, the path and the filename with its extension.
      *
-     * @var string
+     * @var StorageOptions
      */
-    public $disk;
-
-    /**
-     * The filesystem full path used to store the message
-     * including the filename and its extension.
-     *
-     * @var string
-     */
-    public $path;
+    public $storageOptions;
 
     /**
      * Create a new event instance.
      *
      * @param  \Swift_Message  $message
-     * @param  string  $disk
-     * @param  string  $path
+     * @param  StorageOptions  $storageOptions
      * @return void
      */
-    public function __construct($message, $disk, $path)
+    public function __construct($message, $storageOptions)
     {
         $this->message = $message;
-        $this->disk = $disk;
-        $this->path = $path;
+        $this->storageOptions = $storageOptions;
     }
 }

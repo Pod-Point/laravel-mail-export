@@ -2,6 +2,10 @@
 
 namespace PodPoint\MailExport\Concerns;
 
+use Carbon\Carbon;
+use Swift_Message;
+use Illuminate\Support\Str;
+use PodPoint\MailExport\StorageOptions;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
 use PodPoint\MailExport\Contracts\ShouldExport;
@@ -21,13 +25,10 @@ trait Exportable
                 return;
             }
 
-            /** @var \Swift_Message $message */
-            $headers = $message->getHeaders();
-
-            $headers->addParameterizedHeader('X-Mail-Export', 'storage', [
-                'disk' => $this->storageDisk(),
-                'path' => $this->storagePath(),
-                'filename' => $this->storageFilename(),
+            $message->_storageOptions = new StorageOptions($message, [
+                'disk' => $this->exportOption('exportDisk'),
+                'path' => $this->exportOption('exportPath'),
+                'filename' => $this->exportOption('exportFilename'),
             ]);
         });
 
@@ -35,47 +36,18 @@ trait Exportable
     }
 
     /**
-     * Get the filesystem disk to be used when exporting that Mailable.
-     *
-     * @return string|null
-     */
-    public function storageDisk(): ?string
-    {
-        return $this->storageOption('exportDisk');
-    }
-
-    /**
-     * Get the filesystem path to be used when exporting that Mailable.
-     *
-     * @return string|null
-     */
-    public function storagePath(): ?string
-    {
-        return $this->storageOption('exportPath');
-    }
-
-    /**
-     * Get the filesystem file name to be used when exporting that Mailable.
-     *
-     * @return string|null
-     */
-    public function storageFilename(): ?string
-    {
-        return $this->storageOption('exportFilename');
-    }
-
-    /**
      * Tries to resolve storage options from an optional method and property.
      *
      * @param  string  $key
+     * @param  string|null  $default
      * @return string|null
      */
-    private function storageOption(string $key): ?string
+    private function exportOption(string $key, ?string $default = null): ?string
     {
         if (method_exists($this, $key)) {
             return $this->$key();
         }
 
-        return property_exists($this, $key) ? $this->$key : null;
+        return property_exists($this, $key) ? $this->$key : $default;
     }
 }
