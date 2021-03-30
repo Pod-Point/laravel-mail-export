@@ -54,7 +54,13 @@ class OrderShipped extends Mailable implements ShouldExport
 }
 ```
 
-This will use the default filesystem disk and path from the configuration and will also generate a unique filename for you.
+This will use the default filesystem `disk` and `path` from the configuration and will also generate a unique `filename` for you.
+
+The default filename is using a timestamp, the mail recipients, the subject and will look like so:
+
+```
+2021_03_26_150142_jane_at_example_com_this_is_the_subject.eml
+```
 
 You can also specify the `disk`, `path` or `filename` to use for a specific Mailable using properties:
 
@@ -133,6 +139,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
+- [themsaid](https://github.com/themsaid) and Spatie's [laravel-mail-preview](https://github.com/spatie/laravel-mail-preview) for some inspiration
+- [Laravel Package Development](https://laravelpackage.com) documentation by [John Braun](https://github.com/Jhnbrn90) 
 - [Pod Point](https://github.com/pod-point)
 - [All Contributors](https://github.com/pod-point/laravel-mail-export/graphs/contributors)
 
