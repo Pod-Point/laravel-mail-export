@@ -36,15 +36,14 @@ trait Exportable
      * Tries to resolve storage options from an optional method and property.
      *
      * @param  string  $key
-     * @param  string|null  $default
      * @return string|null
      */
-    private function exportOption(string $key, ?string $default = null): ?string
+    private function exportOption(string $key): ?string
     {
         if (method_exists($this, $key)) {
             return $this->$key();
         }
 
-        return property_exists($this, $key) ? $this->$key : $default;
+        return property_exists($this, $key) ? $this->$key : null;
     }
 }
