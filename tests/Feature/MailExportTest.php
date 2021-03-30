@@ -143,7 +143,9 @@ class MailExportTest extends TestCase
         Storage::fake('local');
         Carbon::setTestNow(Carbon::create(2021, 3, 26, 15, 01, 42));
 
-        Mail::send(new ExportableMailable);
+        Mail::send((new ExportableMailable)
+            ->to('jane@example.com')
+            ->subject('This is the subject'));
 
         Storage::disk('local')
             ->assertExists('mail-exports/2021_03_26_150142_jane_at_example_com_this_is_the_subject.eml');

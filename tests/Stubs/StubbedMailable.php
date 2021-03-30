@@ -13,7 +13,7 @@ abstract class StubbedMailable extends Mailable
     public function build()
     {
         $this
-            ->from('jane@example.com')
+            ->from('john@example.com')
             ->subject('This is the subject');
     }
 
