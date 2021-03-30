@@ -5,7 +5,6 @@ namespace PodPoint\MailExport;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use RuntimeException;
 use Swift_Message;
 
 /**
