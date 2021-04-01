@@ -67,7 +67,9 @@ class ExportMessage
 
         $this->filesystem
             ->disk($storageOptions->disk)
-            ->put($storageOptions->fullpath(), $this->message->toString());
+            ->put($storageOptions->fullpath(), $this->message->toString(), [
+                'mimetype' => $storageOptions::MIME_TYPE,
+            ]);
 
         event(new MessageStored($this->message, $storageOptions));
     }

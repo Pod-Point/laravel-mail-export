@@ -14,6 +14,7 @@ use Swift_Message;
 class StorageOptions
 {
     const EXTENSION = 'eml';
+    const MIME_TYPE = 'message/rfc822';
 
     /**
      * @var string
