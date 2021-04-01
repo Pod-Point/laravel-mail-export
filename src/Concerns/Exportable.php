@@ -2,7 +2,6 @@
 
 namespace PodPoint\MailExport\Concerns;
 
-use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailable;
 use PodPoint\MailExport\Contracts\ShouldExport;
 use PodPoint\MailExport\StorageOptions;
@@ -15,7 +14,7 @@ trait Exportable
     /**
      * @inheritDoc
      */
-    public function send(MailerContract $mailer)
+    public function send($mailer)
     {
         $this->withSwiftMessage(function ($message) {
             if (! $this instanceof ShouldExport) {
