@@ -189,4 +189,4 @@ The MIT License (MIT). Please see [License File](LICENCE.md) for more informatio
 
 Travel shouldn't damage the earth 🌍
 
-Made with ❤️ at [Pod Point](https://pod-point.com)
+Made with ❤️&nbsp;&nbsp;at [Pod Point](https://pod-point.com)
