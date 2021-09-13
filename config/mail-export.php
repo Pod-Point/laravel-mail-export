@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'enabled' => env('MAIL_EXPORT', 'true'),
+    'enabled' => env('MAIL_EXPORT', true),
 
     /*
     |--------------------------------------------------------------------------
