@@ -35,7 +35,7 @@ php artisan vendor:publish --provider="PodPoint\MailExport\MailExportServiceProv
 
 You will be able to specify:
 
-* `enabled`: wether this package is enabled or not. This is enabled by default once installed but the `MAIL_EXPORT` environment variable can also be used to configure this.
+* `enabled`: wether this package is enabled or not. Once installed, it's enabled by default but the `MAIL_EXPORT` environment variable can be used to configure this.
 * `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
 * `path`: the default path you would like to export your mails within a storage disk.
 
