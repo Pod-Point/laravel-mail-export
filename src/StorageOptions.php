@@ -62,7 +62,7 @@ class StorageOptions
      */
     private function defaultDisk(): string
     {
-        return config('mail-export.disk') ?: config('filesystem.default');
+        return config('mail-export.disk') ?: config('filesystems.default');
     }
 
     /**
