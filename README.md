@@ -13,7 +13,6 @@ This can be useful when wanting to store emails sent for archive purposes.
 
 You can install the package via composer:
 
-
 For Laravel 7.x and 8.x
 
 ```bash
