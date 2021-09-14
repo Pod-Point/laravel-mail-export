@@ -22,7 +22,7 @@ class ExportMessage
     /**
      * Create a new listener instance.
      *
-     * @param Factory $filesystem
+     * @param  Factory  $filesystem
      */
     public function __construct(Factory $filesystem)
     {
@@ -32,7 +32,7 @@ class ExportMessage
     /**
      * Handles the Event when it happens while listening.
      *
-     * @param MessageSent $event
+     * @param  MessageSent  $event
      */
     public function handle(MessageSent $event)
     {
