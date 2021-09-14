@@ -40,8 +40,8 @@ class StorageOptions
      * Declares the storage options for a specific \Swift_Message. The only
      * properties allowed are 'disk', 'path' and 'filename', all optional.
      *
-     * @param Swift_Message  $message
-     * @param array  $properties
+     * @param  Swift_Message  $message
+     * @param  array  $properties
      */
     public function __construct(Swift_Message $message, array $properties = [])
     {
@@ -62,7 +62,7 @@ class StorageOptions
      */
     private function defaultDisk(): string
     {
-        return config('mail-export.disk') ?: config('filesystem.default');
+        return config('mail-export.disk') ?: config('filesystems.default');
     }
 
     /**

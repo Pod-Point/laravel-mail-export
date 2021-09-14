@@ -73,7 +73,7 @@ class MailExportTest extends TestCase
     /** @test */
     public function it_can_export_using_the_default_application_disk_if_none_is_given()
     {
-        config()->set('filesystem.default', 'default_disk');
+        config()->set('filesystems.default', 'default_disk');
         config()->set('mail-export.disk', null);
 
         Storage::fake('local');
