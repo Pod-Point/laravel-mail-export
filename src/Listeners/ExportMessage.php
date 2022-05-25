@@ -41,7 +41,7 @@ class ExportMessage
     /**
      * Finds out if wether we should store the mail or not.
      *
-     * @param \Swift_Message $message
+     * @param  \Swift_Message  $message
      * @return bool
      */
     protected function shouldStoreMessage(\Swift_Message $message): bool
@@ -54,7 +54,7 @@ class ExportMessage
      * Actually stores the stringified version of the \Swift_Message including headers,
      * recipients, subject and body onto the filesystem disk.
      *
-     * @param \Swift_Message $message
+     * @param  \Swift_Message  $message
      * @return void
      */
     private function storeMessage(\Swift_Message $message): void
