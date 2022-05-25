@@ -31,7 +31,7 @@ class MessageStored
      * @param  StorageOptions  $storageOptions
      * @return void
      */
-    public function __construct($message, $storageOptions)
+    public function __construct(\Swift_Message $message, StorageOptions $storageOptions)
     {
         $this->message = $message;
         $this->storageOptions = $storageOptions;
