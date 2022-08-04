@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Mail\Events\MessageSent;
 use PodPoint\MailExport\Events\MessageStored;
 use PodPoint\MailExport\StorageOptions;
+use Symfony\Component\Mime\Email;
 
 class ExportMessage
 {
@@ -41,7 +42,7 @@ class ExportMessage
      *
      * @return bool
      */
-    protected function shouldStoreMessage(\Symfony\Component\Mime\Email $message): bool
+    protected function shouldStoreMessage(Email $message): bool
     {
         return property_exists($message, '_storageOptions')
             && config('mail-export.enabled', false);
@@ -53,7 +54,7 @@ class ExportMessage
      *
      * @return void
      */
-    private function storeMessage(\Symfony\Component\Mime\Email $message)
+    private function storeMessage(Email $message)
     {
         /** @var StorageOptions $storageOptions */
         $storageOptions = $message->_storageOptions;
