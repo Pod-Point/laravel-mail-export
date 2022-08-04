@@ -4,17 +4,19 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        php: [ 7.3, 8.0 ]
-        laravel: [ 7.*, 8.* ]
+        php: [ 7.4, 8.1 ]
+        laravel: [ 7.*, 8.*, 9.* ]
         include:
           - laravel: 7.*
             testbench: 5.*
           - laravel: 8.*
             testbench: 6.*
+          - laravel: 9.*
+            testbench: 7.*
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 

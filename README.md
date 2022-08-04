@@ -13,7 +13,7 @@ This can be useful when wanting to store emails sent for archive purposes.
 
 You can install the package via composer:
 
-For Laravel 7.x and 8.x
+For Laravel 7.x, 8.x and 9.x
 
 ```bash
 composer require pod-point/laravel-mail-export
