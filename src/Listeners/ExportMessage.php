@@ -15,11 +15,6 @@ class ExportMessage
     protected $filesystem;
 
     /**
-     * @var \Symfony\Component\Mime\Email
-     */
-    protected $message;
-
-    /**
      * Create a new listener instance.
      *
      * @param  Factory  $filesystem
@@ -36,10 +31,8 @@ class ExportMessage
      */
     public function handle(MessageSent $event)
     {
-        $this->message = $event->message;
-
-        if ($this->shouldStoreMessage()) {
-            $this->storeMessage();
+        if ($this->shouldStoreMessage($event->message)) {
+            $this->storeMessage($event->message);
         }
     }
 
@@ -48,9 +41,9 @@ class ExportMessage
      *
      * @return bool
      */
-    protected function shouldStoreMessage(): bool
+    protected function shouldStoreMessage(\Symfony\Component\Mime\Email $message): bool
     {
-        return property_exists($this->message, '_storageOptions')
+        return property_exists($message, '_storageOptions')
             && config('mail-export.enabled', false);
     }
 
@@ -60,17 +53,17 @@ class ExportMessage
      *
      * @return void
      */
-    private function storeMessage()
+    private function storeMessage(\Symfony\Component\Mime\Email $message)
     {
         /** @var StorageOptions $storageOptions */
-        $storageOptions = $this->message->_storageOptions;
+        $storageOptions = $message->_storageOptions;
 
         $this->filesystem
             ->disk($storageOptions->disk)
-            ->put($storageOptions->fullpath(), $this->message->toString(), [
+            ->put($storageOptions->fullpath(), $message->toString(), [
                 'mimetype' => $storageOptions::MIME_TYPE,
             ]);
 
-        event(new MessageStored($this->message, $storageOptions));
+        event(new MessageStored($message, $storageOptions));
     }
 }
