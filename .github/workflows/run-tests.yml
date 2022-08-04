@@ -10,6 +10,9 @@ jobs:
       matrix:
         php: [ 7.4, 8.1 ]
         laravel: [ 7.*, 8.*, 9.* ]
+        exclude:
+          - php: 7.4
+            laravel: 9.*
         include:
           - laravel: 7.*
             testbench: 5.*
