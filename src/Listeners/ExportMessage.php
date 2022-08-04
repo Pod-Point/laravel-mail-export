@@ -15,7 +15,7 @@ class ExportMessage
     protected $filesystem;
 
     /**
-     * @var \Swift_Message
+     * @var \Symfony\Component\Mime\Email
      */
     protected $message;
 
@@ -55,8 +55,8 @@ class ExportMessage
     }
 
     /**
-     * Actually stores the stringified version of the \Swift_Message including headers,
-     * recipients, subject and body onto the filesystem disk.
+     * Actually stores the stringified version of the \Symfony\Component\Mime\Email
+     * including headers, recipients, subject and body onto the filesystem disk.
      *
      * @return void
      */

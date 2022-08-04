@@ -5,11 +5,11 @@ namespace PodPoint\MailExport;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 /**
  * Data transfer object responsible for holding
- * storage informations when exporting a mail.
+ * storage information when exporting a mail.
  */
 class StorageOptions
 {
@@ -32,18 +32,19 @@ class StorageOptions
     public $filename;
 
     /**
-     * @var \Swift_Message
+     * @var \Symfony\Component\Mime\Email
      */
     public $message;
 
     /**
-     * Declares the storage options for a specific \Swift_Message. The only
-     * properties allowed are 'disk', 'path' and 'filename', all optional.
+     * Declares the storage options for a specific \Symfony\Component\Mime\Email.
+     * The only properties allowed are 'disk', 'path' and 'filename'. They all
+     * are obviously optional.
      *
-     * @param  Swift_Message  $message
+     * @param  Email  $message
      * @param  array  $properties
      */
-    public function __construct(Swift_Message $message, array $properties = [])
+    public function __construct(Email $message, array $properties = [])
     {
         $this->message = $message;
 
@@ -83,10 +84,13 @@ class StorageOptions
      */
     private function defaultFilename(): string
     {
-        $recipients = array_keys($this->message->getTo());
+        $recipients = $this->message->getTo();
+
+        /** @var \Symfony\Component\Mime\Address */
+        $recipient = $recipients[0];
 
         $to = ! empty($recipients)
-            ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]).'_'
+            ? str_replace(['@', '.'], ['_at_', '_'], $recipient->getAddress()).'_'
             : '';
 
         $subject = $this->message->getSubject();

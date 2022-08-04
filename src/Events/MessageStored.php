@@ -10,9 +10,9 @@ class MessageStored
     use Dispatchable;
 
     /**
-     * The Swift message instance.
+     * The message instance.
      *
-     * @var \Swift_Message
+     * @var \Symfony\Component\Mime\Email
      */
     public $message;
 
@@ -27,7 +27,7 @@ class MessageStored
     /**
      * Create a new event instance.
      *
-     * @param  \Swift_Message  $message
+     * @param  \Symfony\Component\Mime\Email  $message
      * @param  StorageOptions  $storageOptions
      * @return void
      */
