@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Mail\Events\MessageSent;
 use PodPoint\MailExport\Events\MessageStored;
 use PodPoint\MailExport\StorageOptions;
+use Swift_Message;
 
 class ExportMessage
 {
@@ -31,20 +32,18 @@ class ExportMessage
      */
     public function handle(MessageSent $event): void
     {
-        $message = $event->message;
-
-        if ($this->shouldStoreMessage($message)) {
-            $this->storeMessage($message);
+        if ($this->shouldStoreMessage($event->message)) {
+            $this->storeMessage($event->message);
         }
     }
 
     /**
      * Finds out if wether we should store the mail or not.
      *
-     * @param  \Swift_Message  $message
+     * @param  Swift_Message  $message
      * @return bool
      */
-    protected function shouldStoreMessage(\Swift_Message $message): bool
+    protected function shouldStoreMessage(Swift_Message $message): bool
     {
         return property_exists($message, '_storageOptions')
             && config('mail-export.enabled', false);
@@ -54,10 +53,10 @@ class ExportMessage
      * Actually stores the stringified version of the \Swift_Message including headers,
      * recipients, subject and body onto the filesystem disk.
      *
-     * @param  \Swift_Message  $message
+     * @param  Swift_Message  $message
      * @return void
      */
-    private function storeMessage(\Swift_Message $message): void
+    private function storeMessage(Swift_Message $message): void
     {
         /** @var StorageOptions $storageOptions */
         $storageOptions = $message->_storageOptions;

@@ -14,7 +14,7 @@ trait Exportable
     /**
      * @inheritDoc
      */
-    public function send($mailer): void
+    public function send($mailer)
     {
         $this->withSwiftMessage(function ($message) {
             if (! $this instanceof ShouldExport) {
