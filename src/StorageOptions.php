@@ -84,13 +84,11 @@ class StorageOptions
      */
     private function defaultFilename(): string
     {
+        /** @var \Symfony\Component\Mime\Address[] */
         $recipients = $this->message->getTo();
 
-        /** @var \Symfony\Component\Mime\Address */
-        $recipient = $recipients[0];
-
         $to = ! empty($recipients)
-            ? str_replace(['@', '.'], ['_at_', '_'], $recipient->getAddress()).'_'
+            ? str_replace(['@', '.'], ['_at_', '_'], $recipients[0]->getAddress()).'_'
             : '';
 
         $subject = $this->message->getSubject();
