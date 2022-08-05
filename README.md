@@ -43,7 +43,7 @@ You will be able to specify:
 
 * `enabled`: whether this package is enabled or not. Once installed, it's enabled by default but the `MAIL_EXPORT` environment variable can be used to configure this.
 * `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
-* `path`: the default path you would like to export your mails within a storage disk.
+* `path`: the default path, within the configured disk, where mail will be exported.
 
 See our [`config/mail-export.php`](config/mail-export.php) for more details.
 
