@@ -12,10 +12,10 @@
     ],
     "require": {
         "php": "^7.2.5|^8.0",
-        "nesbot/carbon": "^2.0",
-        "illuminate/support": "~7.0|^8.0",
+        "illuminate/filesystem": "~7.0|^8.0",
         "illuminate/mail": "~7.0|^8.0",
-        "illuminate/filesystem": "~7.0|^8.0"
+        "illuminate/support": "~7.0|^8.0",
+        "nesbot/carbon": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0"
@@ -31,9 +31,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "0.2-dev"
-        },
         "laravel": {
             "providers": [
                 "PodPoint\\MailExport\\MailExportServiceProvider"

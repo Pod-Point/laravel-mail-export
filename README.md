@@ -13,16 +13,22 @@ This can be useful when wanting to store emails sent for archive purposes.
 
 You can install the package via composer:
 
-For Laravel 5.x and 6.x
+For Laravel 9.x
 
 ```bash
-composer require pod-point/laravel-mail-export:^0.1
+composer require pod-point/laravel-mail-export
 ```
 
 For Laravel 7.x and 8.x
 
 ```bash
-composer require pod-point/laravel-mail-export:^0.2
+composer require pod-point/laravel-mail-export:^1.0
+```
+
+For Laravel 5.x and 6.x
+
+```bash
+composer require pod-point/laravel-mail-export:^0.1
 ```
 
 ### Publishing the config file
@@ -35,9 +41,9 @@ php artisan vendor:publish --provider="PodPoint\MailExport\MailExportServiceProv
 
 You will be able to specify:
 
-* `enabled`: wether this package is enabled or not.
+* `enabled`: whether this package is enabled or not. Once installed, it's enabled by default but the `MAIL_EXPORT` environment variable can be used to configure this.
 * `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
-* `path`: the default path you would like to export your mails within a storage disk.
+* `path`: the default path, within the configured disk, where mail will be exported.
 
 See our [`config/mail-export.php`](config/mail-export.php) for more details.
 
@@ -57,7 +63,7 @@ use PodPoint\MailExport\Contracts\ShouldExport;
 class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
-    
+
     // ...
 }
 ```
@@ -84,13 +90,13 @@ use PodPoint\MailExport\Contracts\ShouldExport;
 class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
-    
+
     public $exportDisk = 'some_disk';
 
     public $exportPath = 'some_path';
 
     public $exportFilename = 'some_filename';
-    
+
     // ...
 }
 ```
@@ -109,9 +115,9 @@ use PodPoint\MailExport\Contracts\ShouldExport;
 class OrderShipped extends Mailable implements ShouldExport
 {
     use Exportable;
-    
+
     // ...
-    
+
     public function exportDisk(): string
     {
         return 'some_disk';
@@ -148,11 +154,11 @@ use Illuminate\Notifications\Notification;
 class OrderShipped extends Notification
 {
     // ...
-    
+
     public function toMail($notifiable)
     {
         return (new Mailable($this->order))->to($notifiable->email);
-    }    
+    }
 }
 ```
 
@@ -175,7 +181,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [themsaid](https://github.com/themsaid) and Spatie's [laravel-mail-preview](https://github.com/spatie/laravel-mail-preview) for some inspiration
-- [Laravel Package Development](https://laravelpackage.com) documentation by [John Braun](https://github.com/Jhnbrn90) 
+- [Laravel Package Development](https://laravelpackage.com) documentation by [John Braun](https://github.com/Jhnbrn90)
 - [Pod Point](https://github.com/pod-point)
 - [All Contributors](https://github.com/pod-point/laravel-mail-export/graphs/contributors)
 
@@ -189,4 +195,4 @@ The MIT License (MIT). Please see [License File](LICENCE.md) for more informatio
 
 Travel shouldn't damage the earth 🌍
 
-Made with ❤️ at [Pod Point](https://pod-point.com)
+Made with ❤️&nbsp;&nbsp;at [Pod Point](https://pod-point.com)
