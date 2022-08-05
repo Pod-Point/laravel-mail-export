@@ -16,7 +16,7 @@ trait Exportable
      */
     public function send($mailer)
     {
-        $this->withSwiftMessage(function ($message) {
+        $this->withSymfonyMessage(function ($message) {
             if (! $this instanceof ShouldExport) {
                 return;
             }
