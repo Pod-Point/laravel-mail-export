@@ -38,7 +38,7 @@ class ExportMessage
     }
 
     /**
-     * Finds out if wether we should store the mail or not.
+     * Finds out if whether we should store the mail or not.
      *
      * @param  Swift_Message  $message
      * @return bool
