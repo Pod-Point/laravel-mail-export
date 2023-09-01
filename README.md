@@ -1,7 +1,7 @@
 # Laravel Mail Export
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/pod-point/laravel-mail-export.svg?style=flat-square)](https://packagist.org/packages/pod-point/laravel-mail-export)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pod-point/laravel-mail-export/run-tests?label=tests)
+[![tests](https://github.com/Pod-Point/laravel-mail-export/actions/workflows/run-tests.yml/badge.svg?branch=2.x)](https://github.com/Pod-Point/laravel-mail-export/actions/workflows/run-tests.yml)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/pod-point/laravel-mail-export.svg?style=flat-square)](https://packagist.org/packages/pod-point/laravel-mail-export)
 
@@ -13,7 +13,7 @@ This can be useful when wanting to store emails sent for archive purposes.
 
 You can install the package via composer:
 
-For Laravel 9.x
+For Laravel 9.x and 10.x
 
 ```bash
 composer require pod-point/laravel-mail-export
