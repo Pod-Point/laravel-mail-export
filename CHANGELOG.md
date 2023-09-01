@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mail-export` will be documented in this file.
 
+## 2.1.0 - 2023-09-01
+
+- Laravel 10 Support [#20](https://github.com/Pod-Point/laravel-mail-export/pull/20)
+- New contributor [clnt](https://github.com/clnt)
+
 ## 2.0.0 - 2022-08-04
 
 - Laravel 9 Support **Breaking change** [#17](https://github.com/Pod-Point/laravel-mail-export/pull/17)
