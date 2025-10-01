@@ -13,7 +13,7 @@ This can be useful when wanting to store emails sent for archive purposes.
 
 You can install the package via composer:
 
-For Laravel 9.x, 10.x, 11.x (requires PHP version 8.2 or higher)
+For Laravel 9.x, 10.x, 11.x, 12.x (Check the appropriate PHP version requirements on the [Laravel release notes page](https://laravel.com/docs/master/releases#support-policy))
 
 ```bash
 composer require pod-point/laravel-mail-export
@@ -41,9 +41,9 @@ php artisan vendor:publish --provider="PodPoint\MailExport\MailExportServiceProv
 
 You will be able to specify:
 
-* `enabled`: whether this package is enabled or not. Once installed, it's enabled by default but the `MAIL_EXPORT` environment variable can be used to configure this.
-* `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
-* `path`: the default path, within the configured disk, where mail will be exported.
+-   `enabled`: whether this package is enabled or not. Once installed, it's enabled by default but the `MAIL_EXPORT` environment variable can be used to configure this.
+-   `disk`: which disk to use by default. `null` will use the default disk from your application filesystem.
+-   `path`: the default path, within the configured disk, where mail will be exported.
 
 See our [`config/mail-export.php`](config/mail-export.php) for more details.
 
@@ -180,10 +180,10 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [themsaid](https://github.com/themsaid) and Spatie's [laravel-mail-preview](https://github.com/spatie/laravel-mail-preview) for some inspiration
-- [Laravel Package Development](https://laravelpackage.com) documentation by [John Braun](https://github.com/Jhnbrn90)
-- [Pod Point](https://github.com/pod-point)
-- [All Contributors](https://github.com/pod-point/laravel-mail-export/graphs/contributors)
+-   [themsaid](https://github.com/themsaid) and Spatie's [laravel-mail-preview](https://github.com/spatie/laravel-mail-preview) for some inspiration
+-   [Laravel Package Development](https://laravelpackage.com) documentation by [John Braun](https://github.com/Jhnbrn90)
+-   [Pod Point](https://github.com/pod-point)
+-   [All Contributors](https://github.com/pod-point/laravel-mail-export/graphs/contributors)
 
 ## License
 
